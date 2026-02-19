@@ -2,7 +2,7 @@
 
 CodeLab is a modern, interactive platform designed to teach Java programming to absolute beginners. It features a "Zen Minimalist" aesthetic to provide a distraction-free learning environment.
 
-![CodeLab Preview](/Users/donvicks/.gemini/antigravity/brain/77640834-4cc6-4109-88d8-f1d262d236bf/home_page_1771522171160.png)
+![CodeLab Preview](preview.png)
 
 ## Features
 
