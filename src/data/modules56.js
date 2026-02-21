@@ -19,6 +19,13 @@ export const classesMethods = [
         content: `Access modifiers control who can see and use your class, fields, and methods:\n\n• \`public\` — Accessible from anywhere\n• \`private\` — Only accessible within the same class\n• \`protected\` — Accessible within the same package and subclasses\n• (default/no modifier) — Accessible within the same package only`,
       },
       {
+        type: 'info',
+        variant: 'tip',
+        title: "Don't Memorize These Yet",
+        content:
+          "You'll understand why access modifiers matter when you learn about encapsulation and larger projects. For now, just know they exist and that most of your code will use `public` and `private`.",
+      },
+      {
         type: 'editor',
         title: 'Anatomy of a Class',
         defaultCode: `// A simple Student class\nclass Student {\n    // Fields (what data does a Student have?)\n    String name;\n    int age;\n    double gpa;\n    \n    // Method (what can a Student do?)\n    void introduce() {\n        System.out.println("Hi, I'm " + name);\n        System.out.println("Age: " + age + ", GPA: " + gpa);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // Creating objects from the class\n        Student s1 = new Student();\n        s1.name = "Alice";\n        s1.age = 20;\n        s1.gpa = 3.8;\n        s1.introduce();\n        \n        System.out.println();\n        \n        Student s2 = new Student();\n        s2.name = "Bob";\n        s2.age = 22;\n        s2.gpa = 3.5;\n        s2.introduce();\n    }\n}`,
@@ -41,7 +48,7 @@ export const classesMethods = [
       {
         type: 'text',
         title: 'Breaking Down Each Keyword',
-        content: `\`public static void main(String[] args)\`\n\n• **public** — This method can be accessed from anywhere. The JVM needs to call it from outside, so it must be public.\n\n• **static** — This method belongs to the CLASS, not to an object. The JVM calls it before any objects are created, so it must be static.\n\n• **void** — This method doesn't return any value. It just runs and finishes.\n\n• **main** — The name of the method. It MUST be called "main" — the JVM looks for this exact name.\n\n• **String[] args** — An array of Strings. These are **command-line arguments** — extra information you can pass when running the program.`,
+        content: `\`public static void main(String[] args)\`\n\n• **public** — This method can be accessed from anywhere. The JVM needs to call it from outside, so it must be public.\n\n• **static** — This method belongs to the CLASS, not to an object. The JVM calls it before any objects are created, so it must be static.\n\n• **void** — This method doesn't return any value. It just runs and finishes.\n\n• **main** — The name of the method. It MUST be called "main" — the JVM looks for this exact name.\n\n• **String[] args** — Don't worry about this part for now. It's a way to pass extra information to your program when you run it from a terminal. You can safely ignore it until you need it.`,
       },
       {
         type: 'editor',
@@ -73,7 +80,7 @@ export const classesMethods = [
       {
         type: 'text',
         title: 'Method Syntax',
-        content: `\`\`\`\naccessModifier returnType methodName(parameters) {\n    // method body\n    return value;  // if returnType is not void\n}\n\`\`\`\n\nExamples:\n• \`void sayHello()\` — takes nothing, returns nothing\n• \`int add(int a, int b)\` — takes two ints, returns an int\n• \`String greet(String name)\` — takes a String, returns a String`,
+        content: `\`\`\`\naccessModifier returnType methodName(parameters) {\n    // method body\n    return value;  // if returnType is not void\n}\n\`\`\`\n\nLet's translate some examples into plain English:\n• \`void sayHello()\` — "A method called sayHello that takes nothing and gives nothing back"\n• \`int add(int a, int b)\` — "A method called add that takes two numbers and gives back a number"\n• \`String greet(String name)\` — "A method called greet that takes a name and gives back text"`,
       },
       {
         type: 'editor',
@@ -127,7 +134,7 @@ export const workingWithData = [
       {
         type: 'text',
         title: 'What is an Array?',
-        content: `An **array** is a container that holds a **fixed number** of values of the **same type**. Think of it like an array (row) of boxes, each with a number (index) starting from 0.\n\n• Arrays have a **fixed size** — set when you create them\n• Array indices start at **0**, not 1\n• All elements must be the **same data type**`,
+        content: `An **array** is a container that holds a **fixed number** of values of the **same type**. Think of it like a **row of numbered lockers** — each locker holds one item, and you access it by its number (starting from 0).\n\n• Arrays have a **fixed size** — set when you create them\n• Array indices start at **0**, not 1\n• All elements must be the **same data type**`,
       },
       {
         type: 'editor',
@@ -154,7 +161,7 @@ export const workingWithData = [
       {
         type: 'text',
         title: 'Strings in Java',
-        content: `A \`String\` is a sequence of characters. In Java, Strings are **objects**, not primitive types. They're also **immutable** — once created, they cannot be changed (modifications create new String objects).`,
+        content: `A \`String\` is a sequence of characters. In Java, Strings are **objects**, not primitive types. They're also **immutable** — once created, they cannot be changed.\n\nThis means when you call \`text.toUpperCase()\`, it doesn't change the original \`text\` variable — it creates a **brand new String** with the result. The original stays exactly the same. You need to save the result if you want to keep it: \`String upper = text.toUpperCase();\``,
       },
       {
         type: 'editor',
@@ -193,7 +200,7 @@ export const workingWithData = [
         variant: 'tip',
         title: 'Wrapper Classes',
         content:
-          "ArrayList can't hold primitives directly. Use wrapper classes instead: `Integer` for int, `Double` for double, `Boolean` for boolean, etc.",
+          "ArrayList works with objects, not primitives. Since `int`, `double`, and `boolean` aren't objects, you use their object versions instead: `Integer` for int, `Double` for double, `Boolean` for boolean. Java converts between them automatically — this is called autoboxing.",
       },
     ],
   },

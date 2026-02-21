@@ -80,9 +80,9 @@ export const programmingBasics = [
     id: 'core-concepts',
     module: 'Programming Basics',
     moduleIndex: 0,
-    title: 'Core Concepts (Simple Version)',
+    title: 'Core Concepts of Programming',
     description:
-      'The basic building blocks you\'ll find in every programming language. Think of these as the "vocabulary" of coding.',
+      'The fundamental building blocks every programming language shares. Master these and learning any language becomes easy.',
     sections: [
       {
         type: 'text',
@@ -133,7 +133,7 @@ export const programmingBasics = [
       {
         type: 'text',
         title: 'Variables — Think of a Labeled Box',
-        content: `A **variable** is like a labeled box. You give it a name and put something inside.\n\nImagine a box with "name" written on it, and inside you put "John". In code, that looks like:\n\n\`String name = "John";\`\n\nYou can change what\'s inside whenever you want. That\'s why it\'s called a "variable" — it can vary!`,
+        content: `A **variable** is like a labeled box. You give it a name and put something inside.\n\nImagine writing "name" on a box, then putting the word "John" inside it. In plain English, that\'s:\n\n**name = "John"**\n\nIn Java, you also tell the computer *what kind of thing* is in the box. Since "John" is text, you write:\n\n\`String name = "John";\`\n\n(Don\'t worry about \`String\` yet — we\'ll cover data types properly in a later lesson.)\n\nYou can change what\'s inside whenever you want. That\'s why it\'s called a "variable" — it can vary!`,
       },
       {
         type: 'text',
@@ -158,7 +158,7 @@ export const programmingBasics = [
       {
         type: 'text',
         title: 'Write It Out in Plain English First',
-        content: `Before writing any actual code, try writing what your program should do in plain English (or pidgin, or whatever you speak!).\n\nFor example, a program that checks if someone can vote:\n\n"Ask the person their age. If their age is 18 or more, tell them they can vote. If not, tell them they\'re too young."\n\nOnce you have this written out, turning it into code becomes much easier because you already know the logic!`,
+        content: `Before writing any actual code, try writing what your program should do in plain English (or pidgin, or whatever you speak!).\n\n**Example 1 — Voting checker:**\n"Ask the person their age. If their age is 18 or more, tell them they can vote. If not, tell them they\'re too young."\n\n**Example 2 — Login system:**\n"Ask for a username and password. Check if they match what\'s stored. If yes, show the dashboard. If no, show an error and let them try again."\n\nOnce you have this written out, turning it into code becomes much easier because you already know the logic!`,
       },
       {
         type: 'info',
@@ -233,7 +233,7 @@ export const gettingStarted = [
       {
         type: 'text',
         title: 'If You Have a Laptop',
-        content: `To run Java on your own computer, you need two things:\n\n1. **The JDK** — Download it for free from [adoptium.net](https://adoptium.net)\n2. **An IDE** (a fancy text editor for code) — see the recommendations at the bottom of this page\n\nBut again, for learning? This website is all you need. The Playground lets you write and run any Java code instantly.`,
+        content: `To run Java on your own computer, you need two things:\n\n1. **The JDK** — Download it for free from [adoptium.net](https://adoptium.net)\n2. **An IDE** (a fancy text editor for code) — scroll down to the "Recommended IDEs" section at the very bottom of this page for our picks\n\nBut again, for learning? This website is all you need. The Playground lets you write and run any Java code instantly.`,
       },
     ],
   },
@@ -258,7 +258,7 @@ export const gettingStarted = [
       {
         type: 'text',
         title: 'What Does Each Line Mean?',
-        content: `Don\'t worry about memorizing this right now. Just get the general idea:\n\n• \`public class Main\` — This creates a "container" for your code called Main. All Java code goes inside a class like this.\n\n• \`public static void main(String[] args)\` — This is the **starting point**. When you click Run, Java looks for this line and starts here. Think of it as the front door of your program.\n\n• \`System.out.println("Hello, World!");\` — This **prints text** to the screen. Whatever you put inside the quotes will be displayed.\n\n• The curly braces \`{ }\` — These are like containers that group code together.\n\n• The semicolon \`;\` — This marks the **end of a statement**. It\'s like a period at the end of a sentence. Forget it and Java will complain!`,
+        content: `Don\'t worry about memorizing this right now. Just get the general idea:\n\n• \`public class Main\` — This creates a "container" for your code called Main. All Java code lives inside a class.\n\n• \`public static void main(String[] args)\` — This is the **entry point** — Java always starts running your code from this exact line. Every Java program must have one.\n\n• \`System.out.println("Hello, World!");\` — This **prints text** to the screen. Whatever you put inside the quotes will be displayed.\n\n• The curly braces \`{ }\` — These group lines of code together into blocks.\n\n• The semicolon \`;\` — This marks the **end of a statement**. It\'s like a period at the end of a sentence. Forget it and Java will complain!`,
       },
       {
         type: 'info',

@@ -48,7 +48,7 @@ export const javaFundamentals = [
       {
         type: 'text',
         title: 'Java Data Types',
-        content: `Java has two categories of data types:\n\n**Primitive Types** (built into the language):\n• \`int\` — Whole numbers: 1, 42, -100\n• \`double\` — Decimal numbers: 3.14, -0.5\n• \`float\` — Smaller decimals (add \`f\`): 3.14f\n• \`char\` — Single character: 'A', 'z', '9'\n• \`boolean\` — True or false: true, false\n• \`long\` — Very large whole numbers\n• \`byte\` — Small numbers (-128 to 127)\n• \`short\` — Medium numbers (-32768 to 32767)\n\n**Reference Types**:\n• \`String\` — Text: "Hello World" (note the capital S!)\n• Arrays, Objects, and more (we'll cover these later)`,
+        content: `Java has two categories of data types:\n\n**Primitive Types** (built into the language):\n• \`int\` — Whole numbers: 1, 42, -100\n• \`double\` — Decimal numbers: 3.14, -0.5\n• \`float\` — Decimal numbers with less precision than double (add \`f\`): 3.14f\n• \`char\` — Single character: 'A', 'z', '9'\n• \`boolean\` — True or false: true, false\n• \`long\` — Very large whole numbers\n• \`byte\` — Small numbers (-128 to 127)\n• \`short\` — Medium numbers (-32768 to 32767)\n\n**Reference Types**:\n• \`String\` — Text: "Hello World" (note the capital S!)\n• Arrays, Objects, and more (we'll cover these later)`,
       },
       {
         type: 'editor',
@@ -80,7 +80,7 @@ export const javaFundamentals = [
       {
         type: 'text',
         title: 'What is Type Casting?',
-        content: `**Type casting** is converting a value from one data type to another. For example, converting an \`int\` to a \`double\`, or a \`double\` to an \`int\`.\n\nThere are two types:\n\n• **Widening (Automatic)** — Going from a smaller type to a larger type. Java does this automatically because no data is lost.\n  \`byte → short → int → long → float → double\`\n\n• **Narrowing (Manual)** — Going from a larger type to a smaller type. You must do this explicitly because data might be lost.\n  \`double → float → long → int → short → byte\``,
+        content: `**Type casting** is converting a value from one data type to another. For example, converting an \`int\` to a \`double\`, or a \`double\` to an \`int\`.\n\nThere are two types:\n\n• **Widening (Automatic)** — Going from a smaller type to a larger type. Java does this automatically because no data is lost. Think of it like pouring water from a small cup into a big bucket — nothing spills.\n  \`byte → short → int → long → float → double\`\n\n• **Narrowing (Manual)** — Going from a larger type to a smaller type. You must do this explicitly because data might be lost. It's like pouring from a bucket into a cup — some water overflows.\n  \`double → float → long → int → short → byte\``,
       },
       {
         type: 'editor',
@@ -107,7 +107,7 @@ export const javaFundamentals = [
       {
         type: 'text',
         title: 'Reading User Input',
-        content: `So far, all our programs just print output. But real programs need **input** from users. Java provides the \`Scanner\` class for reading input from the keyboard.\n\nTo use Scanner, you need to:\n1. **Import** it: \`import java.util.Scanner;\`\n2. **Create** a Scanner object: \`Scanner scanner = new Scanner(System.in);\`\n3. **Use** its methods to read data`,
+        content: `So far, all our programs just print output. But real programs need **input** from users. Java provides the \`Scanner\` class for reading input from the keyboard.\n\nTo use Scanner, you need to:\n1. **Import** it: \`import java.util.Scanner;\`\n2. **Create** a Scanner object: \`Scanner scanner = new Scanner(System.in);\`\n3. **Use** its methods to read data\n\n**Note:** Since this website\'s Playground can\'t accept live keyboard input, the example below simulates it. On your own computer with an IDE, Scanner would pause and wait for you to type.`,
       },
       {
         type: 'text',
@@ -151,7 +151,7 @@ export const operators = [
       {
         type: 'text',
         title: 'Math in Java',
-        content: `Arithmetic operators let you perform mathematical operations on numbers. They work just like math you already know!`,
+        content: `Arithmetic operators let you perform mathematical operations on numbers. They work just like the math you already know!`,
       },
       {
         type: 'table',
@@ -165,6 +165,13 @@ export const operators = [
           ['`++`', 'Increment', 'x++ or ++x', 'x + 1'],
           ['`--`', 'Decrement', 'x-- or --x', 'x - 1'],
         ],
+      },
+      {
+        type: 'info',
+        variant: 'tip',
+        title: 'When is Modulus (%) useful?',
+        content:
+          "Modulus gives you the remainder after division. It's great for checking if a number is even or odd: `number % 2 == 0` means even, `number % 2 != 0` means odd. You'll use this a lot!",
       },
       {
         type: 'editor',
@@ -184,7 +191,7 @@ export const operators = [
     id: 'relational-comparison',
     module: 'Operators',
     moduleIndex: 3,
-    title: 'Relational & Comparison Operators',
+    title: 'Comparison Operators',
     description:
       'Learn how to compare values — is something greater, less, or equal?',
     sections: [
@@ -285,7 +292,7 @@ export const operators = [
       {
         type: 'text',
         title: 'Bitwise Operators (Advanced)',
-        content: `Bitwise operators work on the **binary** (0s and 1s) representation of numbers. You won't use these often as a beginner, but it's good to know they exist:\n\n• \`&\` — Bitwise AND\n• \`|\` — Bitwise OR\n• \`^\` — Bitwise XOR (exclusive or)\n• \`~\` — Bitwise NOT (complement)\n• \`<<\` — Left shift\n• \`>>\` — Right shift\n\nDon't worry about these for now — focus on arithmetic, comparison, and logical operators first!`,
+        content: `Bitwise operators work on the **binary** (0s and 1s) representation of numbers. **You won't need these as a beginner** — they're listed here just so you know they exist. Feel free to skip this section and come back to it later.\n\n• \`&\` — Bitwise AND\n• \`|\` — Bitwise OR\n• \`^\` — Bitwise XOR (exclusive or)\n• \`~\` — Bitwise NOT (complement)\n• \`<<\` — Left shift\n• \`>>\` — Right shift\n\nFocus on arithmetic, comparison, and logical operators first — those are the ones you'll use daily!`,
       },
     ],
   },

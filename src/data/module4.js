@@ -21,7 +21,7 @@ export const controlFlow = [
       {
         type: 'text',
         title: 'The Ternary Operator',
-        content: `The **ternary operator** is a one-line shorthand for simple if/else:\n\n\`variable = (condition) ? valueIfTrue : valueIfFalse;\`\n\nFor example:\n\`String result = (score >= 50) ? "Pass" : "Fail";\``,
+        content: `The **ternary operator** is a one-line shorthand for simple if/else:\n\n\`variable = (condition) ? valueIfTrue : valueIfFalse;\`\n\nFor example:\n\`String result = (score >= 50) ? "Pass" : "Fail";\`\n\nThis is just a shortcut — if you find it confusing, stick with regular if/else for now. You can always come back to this once you\'re more comfortable.`,
       },
     ],
   },
@@ -63,12 +63,17 @@ export const controlFlow = [
       {
         type: 'text',
         title: 'Why Loops?',
-        content: `Imagine you need to print "Hello" 100 times. You wouldn't write 100 println statements! Loops let you repeat code automatically.\n\nJava has three types of loops:\n• \`for\` — When you know how many times to repeat\n• \`while\` — When you repeat until a condition is false\n• \`do-while\` — Like while, but runs at least once`,
+        content: `Imagine you need to print "Hello" 100 times. You wouldn't write 100 println statements! Loops let you repeat code automatically.\n\nJava has three types of loops:\n• \`for\` — When you know how many times to repeat\n• \`while\` — When you repeat until a condition is false\n• \`do-while\` — Like while, but always runs **at least once** (even if the condition is false from the start)`,
+      },
+      {
+        type: 'text',
+        title: 'break and continue',
+        content: `Two special keywords control loops:\n\n• **break** — Immediately exits the loop. Like walking out of a class early: "I\'m done, I\'m leaving."\n• **continue** — Skips the rest of the current iteration and jumps to the next one. Like saying: "Skip this one, move to the next."\n\nBoth are useful for controlling exactly when and how your loop runs.`,
       },
       {
         type: 'editor',
         title: 'Try All Three Loop Types',
-        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // FOR loop - when you know how many times\n        System.out.println("=== For Loop ===");\n        for (int i = 1; i <= 5; i++) {\n            System.out.println("Count: " + i);\n        }\n        \n        // WHILE loop - repeat while condition is true\n        System.out.println("\\n=== While Loop ===");\n        int x = 10;\n        while (x > 0) {\n            System.out.println("x = " + x);\n            x -= 3;\n        }\n        \n        // DO-WHILE loop - runs at least once\n        System.out.println("\\n=== Do-While Loop ===");\n        int num = 1;\n        do {\n            System.out.println("num = " + num);\n            num *= 2;\n        } while (num <= 16);\n        \n        // BREAK - exit a loop early\n        System.out.println("\\n=== Break Example ===");\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) break;  // Stop at 6\n            System.out.println("i = " + i);\n        }\n        \n        // CONTINUE - skip to next iteration\n        System.out.println("\\n=== Continue (skip even numbers) ===");\n        for (int i = 1; i <= 10; i++) {\n            if (i % 2 == 0) continue;  // Skip even\n            System.out.println("i = " + i);\n        }\n    }\n}`,
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // FOR loop - when you know how many times\n        System.out.println("=== For Loop ===");\n        for (int i = 1; i <= 5; i++) {\n            System.out.println("Count: " + i);\n        }\n        \n        // WHILE loop - repeat while condition is true\n        System.out.println("\\n=== While Loop ===");\n        int x = 10;\n        while (x > 0) {\n            System.out.println("x = " + x);\n            x -= 3;\n        }\n        \n        // DO-WHILE loop - always runs at least once\n        System.out.println("\\n=== Do-While Loop ===");\n        int num = 1;\n        do {\n            System.out.println("num = " + num);\n            num++;\n        } while (num <= 5);\n        \n        // BREAK - exit a loop early\n        System.out.println("\\n=== Break Example ===");\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) break;  // Stop at 6\n            System.out.println("i = " + i);\n        }\n        \n        // CONTINUE - skip to next iteration\n        System.out.println("\\n=== Continue (skip even numbers) ===");\n        for (int i = 1; i <= 10; i++) {\n            if (i % 2 == 0) continue;  // Skip even\n            System.out.println("i = " + i);\n        }\n    }\n}`,
       },
       {
         type: 'text',
