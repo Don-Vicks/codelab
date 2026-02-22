@@ -90,7 +90,7 @@ export default function Sidebar({
           className={`px-3 pt-1 ${isCollapsed ? 'flex justify-center' : ''}`}
         >
           <a
-            href='/assignment.html'
+            href='/assignment/'
             className={`flex items-center gap-2.5 rounded-md text-sm font-medium transition-all text-zinc-400 hover:bg-surface-tertiary hover:text-zinc-200 ${isCollapsed ? 'p-2 justify-center' : 'w-full px-5 py-2'}`}
             title='Assignment'
           >
