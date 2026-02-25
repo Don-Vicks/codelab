@@ -2,10 +2,10 @@ const WANDBOX_API = 'https://wandbox.org/api/compile.json'
 
 export async function executeJavaCode(sourceCode) {
   try {
-    // Wandbox uses prog.java as filename, so we need to handle "public class Main"
-    // by replacing "public class Main" with "class Main" (remove public modifier)
+    // Wandbox uses prog.java as filename, so we need to handle "public class"
+    // by removing the public modifier to prevent Java compiler errors.
     let code = sourceCode
-    code = code.replace(/public\s+class\s+Main/, 'class Main')
+    code = code.replace(/public\s+class\s+(\w+)/g, 'class $1')
 
     const response = await fetch(WANDBOX_API, {
       method: 'POST',
