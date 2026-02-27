@@ -92,6 +92,16 @@ export const classesMethods = [
         title: 'Method Overloading',
         content: `**Method overloading** means having multiple methods with the **same name** but **different parameters**. Java knows which one to call based on the arguments you pass.\n\nFor example, \`add(int, int)\` and \`add(double, double)\` are two different methods with the same name. Java picks the right one automatically!`,
       },
+      {
+        type: 'editor',
+        title: 'Variable Scope',
+        defaultCode: `public class Main {\n    // Class-level variable (Global/Class scope)\n    static int globalCount = 100;\n    \n    static void demoMethod() {\n        // Local variable inside a method\n        int localToMethod = 50;\n        System.out.println("Inside demoMethod: global = " + globalCount + ", local = " + localToMethod);\n        // We CANNOT access 'localToMain' here!\n    }\n    \n    public static void main(String[] args) {\n        // Local variable inside main\n        int localToMain = 10;\n        System.out.println("Before method call: localToMain = " + localToMain);\n        \n        demoMethod();\n        \n        // The variable 'localToMethod' doesn't exist here!\n        // System.out.println(localToMethod); // This will cause an error!\n        \n        if (localToMain > 5) {\n            // Block-level scope\n            int blockVar = 55;\n            System.out.println("Inside block: " + blockVar);\n        }\n        // We CANNOT access 'blockVar' here!\n    }\n}`,
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task: Calculator App',
+        defaultCode: `// Create 4 methods for add, subtract, multiply, divide.\n// Call them from main.\npublic class Calculator {\n    // Define methods here\n    \n    public static void main(String[] args) {\n        // Call methods and print results\n        \n    }\n}`,
+      },
     ],
   },
   {
@@ -142,11 +152,26 @@ export const workingWithData = [
         defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // Creating arrays\n        int[] numbers = {10, 20, 30, 40, 50};\n        String[] names = {"Alice", "Bob", "Charlie"};\n        \n        // Accessing elements (index starts at 0!)\n        System.out.println("First number: " + numbers[0]);\n        System.out.println("Third name: " + names[2]);\n        \n        // Array length\n        System.out.println("Array size: " + numbers.length);\n        \n        // Modifying elements\n        numbers[1] = 25;\n        System.out.println("Modified: " + numbers[1]);\n        \n        // Looping through an array\n        System.out.println("\\nAll numbers:");\n        for (int i = 0; i < numbers.length; i++) {\n            System.out.println("  Index " + i + ": " + numbers[i]);\n        }\n        \n        // For-each loop (simpler way)\n        System.out.println("\\nAll names:");\n        for (String name : names) {\n            System.out.println("  - " + name);\n        }\n    }\n}`,
       },
       {
+        type: 'editor',
+        title: 'Multidimensional Arrays (2D Arrays)',
+        defaultCode: `// 2D arrays are arrays of arrays! Like a grid or a spreadsheet.\npublic class MatrixDemo {\n    public static void main(String[] args) {\n        // Creating a 2D array (3 rows, 3 columns)\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        // Accessing an element: matrix[rowIndex][colIndex]\n        System.out.println("Element at row 1, col 2 is: " + matrix[1][2]); // Note: indices start at 0! So row 1 is the 2nd row, col 2 is the 3rd column = 6.\n        \n        // Using nested loops to print the matrix\n        System.out.println("\\nFull Matrix:");\n        for (int i = 0; i < matrix.length; i++) {\n            for (int j = 0; j < matrix[i].length; j++) {\n                System.out.print(matrix[i][j] + " ");\n            }\n            System.out.println(); // newline after each row\n        }\n    }\n}`,
+      },
+      {
+        type: 'editor',
+        title: 'The Arrays Utility Class',
+        defaultCode: `import java.util.Arrays;\n\npublic class ArrayUtilsDemo {\n    public static void main(String[] args) {\n        int[] numbers = {50, 10, 40, 20, 30};\n        \n        // 1. Arrays.toString() - Print arrays easily without loops!\n        System.out.println("Original array: " + Arrays.toString(numbers));\n        \n        // 2. Arrays.sort() - Sort elements in ascending order\n        Arrays.sort(numbers);\n        System.out.println("Sorted array: " + Arrays.toString(numbers));\n        \n        // 3. Arrays.binarySearch() - Find the index of an element (array MUST be sorted!)\n        int index = Arrays.binarySearch(numbers, 40);\n        System.out.println("Index of 40: " + index);\n        \n        // 4. Arrays.copyOf() - Create a copy with a new length\n        int[] expanded = Arrays.copyOf(numbers, 7);\n        System.out.println("Expanded array: " + Arrays.toString(expanded)); // Pads with 0s\n    }\n}`,
+      },
+      {
         type: 'info',
         variant: 'warning',
         title: 'ArrayIndexOutOfBoundsException',
         content:
           "If you try to access an index that doesn't exist (e.g., index 5 in a 5-element array), Java will crash with this error. Remember: indices go from 0 to length-1!",
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task: Array Operations',
+        defaultCode: `// Store 5 grades in an array. Calculate sum and average.\npublic class ArrayOps {\n    public static void main(String[] args) {\n        int[] grades = {85, 90, 78, 92, 88};\n        int sum = 0;\n        \n        // Your code here\n        \n    }\n}`,
       },
     ],
   },
@@ -161,12 +186,12 @@ export const workingWithData = [
       {
         type: 'text',
         title: 'Strings in Java',
-        content: `A \`String\` is a sequence of characters. In Java, Strings are **objects**, not primitive types. They're also **immutable** — once created, they cannot be changed.\n\nThis means when you call \`text.toUpperCase()\`, it doesn't change the original \`text\` variable — it creates a **brand new String** with the result. The original stays exactly the same. You need to save the result if you want to keep it: \`String upper = text.toUpperCase();\``,
+        content: `A \`String\` is a sequence of characters. In Java, Strings are **objects**, not primitive types. They're also **immutable** — once created, they cannot be changed.\n\nThis means when you call \`text.toUpperCase()\`, it doesn't change the original \`text\` variable — it creates a **brand new String** with the result. The original stays exactly the same.\n\n### The String Pool\nJava uses a special memory area called the **String Pool** to save memory. When you create a String like \`String s1 = "Hello";\`, Java puts "Hello" in the pool. If you create another \`String s2 = "Hello";\`, Java just points \`s2\` to the existing "Hello" in the pool instead of creating a new object.`,
       },
       {
         type: 'editor',
-        title: 'String Methods',
-        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        String text = "Hello, World!";\n        \n        // Common String methods\n        System.out.println("Length: " + text.length());\n        System.out.println("Upper: " + text.toUpperCase());\n        System.out.println("Lower: " + text.toLowerCase());\n        System.out.println("Char at 0: " + text.charAt(0));\n        System.out.println("Substring: " + text.substring(0, 5));\n        System.out.println("Contains 'World': " + text.contains("World"));\n        System.out.println("Index of 'W': " + text.indexOf("W"));\n        System.out.println("Replace: " + text.replace("World", "Java"));\n        System.out.println("Trim: " + "  spaces  ".trim());\n        \n        // String comparison (use .equals(), NOT ==)\n        String a = "hello";\n        String b = "hello";\n        System.out.println("\\na.equals(b): " + a.equals(b)); // true!\n        \n        // String concatenation\n        String first = "John";\n        String last = "Doe";\n        String full = first + " " + last;\n        System.out.println("Full name: " + full);\n    }\n}`,
+        title: 'In-Depth String Methods',
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        String text = "Java Programming";\n        \n        // 1. Length & Characters\n        System.out.println("Length: " + text.length()); // 16\n        System.out.println("Character at index 5: " + text.charAt(5)); // 'P'\n        \n        // 2. Searching & Slicing\n        System.out.println("Index of 'Pro': " + text.indexOf("Pro")); // 5\n        System.out.println("Substring (from index 5): " + text.substring(5)); // "Programming"\n        System.out.println("Substring (index 0 to 4): " + text.substring(0, 4)); // "Java"\n        \n        // 3. Modifying (Returns a NEW String, doesn't change original!)\n        String loud = text.toUpperCase();\n        System.out.println("Uppercase: " + loud);\n        System.out.println("Original text is unchanged: " + text);\n        System.out.println("Trim (removes edge spaces): " + "  messy  ".trim());\n        \n        // 4. Comparison methods (Always use these instead of ==)\n        String a = "hello";\n        String b = "Hello";\n        System.out.println("\\na.equals(b)? " + a.equals(b)); // false (case-sensitive)\n        System.out.println("a.equalsIgnoreCase(b)? " + a.equalsIgnoreCase(b)); // true\n        System.out.println("a.compareTo(b): " + a.compareTo(b)); // > 0 because 'h' > 'H' in ASCII\n    }\n}`,
       },
       {
         type: 'info',
@@ -174,6 +199,26 @@ export const workingWithData = [
         title: 'NEVER use == to compare Strings!',
         content:
           'Use `str1.equals(str2)` to compare String content. The `==` operator compares memory references, not the actual text!',
+      },
+    ],
+  },
+  {
+    id: 'stringbuilder',
+    module: 'Working with Data',
+    moduleIndex: 6,
+    title: 'StringBuilder',
+    description:
+      'The mutable alternative to Strings. Use this when you need to modify text frequently!',
+    sections: [
+      {
+        type: 'text',
+        title: 'Why StringBuilder?',
+        content: `Because \`String\` is **immutable**, every time you modify a String (like using \`+\` in a loop), Java creates a brand new String object and throws away the old one. If you do this thousands of times, it slows down your program and wastes memory!\n\n\`StringBuilder\` is **mutable**. It acts like a resizable text buffer. You can append, insert, or delete characters directly inside it without creating new objects every time.`,
+      },
+      {
+        type: 'editor',
+        title: 'StringBuilder Methods',
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // 1. Create a StringBuilder\n        StringBuilder sb = new StringBuilder("Java");\n        \n        // 2. Append (add to the end)\n        sb.append(" is");\n        sb.append(" awesome!");\n        System.out.println("After append: " + sb);\n        \n        // 3. Insert (add in the middle at a specific index)\n        sb.insert(5, "truly ");\n        System.out.println("After insert: " + sb);\n        \n        // 4. Delete and DeleteCharAt\n        sb.delete(5, 11); // deletes "truly "\n        System.out.println("After delete: " + sb);\n        sb.deleteCharAt(4); // deletes space after Java\n        System.out.println("After deleteCharAt: " + sb);\n        \n        // 5. Replace and Reverse\n        sb.replace(0, 4, "Python");\n        System.out.println("After replace: " + sb);\n        sb.reverse();\n        System.out.println("After reverse: " + sb);\n        \n        // 6. Convert back to an immutable String when done\n        String finalResult = sb.toString();\n    }\n}`,
       },
     ],
   },
@@ -192,8 +237,8 @@ export const workingWithData = [
       },
       {
         type: 'editor',
-        title: 'ArrayList in Action',
-        defaultCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Create an ArrayList of Strings\n        ArrayList<String> fruits = new ArrayList<>();\n        \n        // Add elements\n        fruits.add("Apple");\n        fruits.add("Banana");\n        fruits.add("Cherry");\n        fruits.add("Date");\n        System.out.println("Fruits: " + fruits);\n        System.out.println("Size: " + fruits.size());\n        \n        // Access elements\n        System.out.println("First: " + fruits.get(0));\n        \n        // Modify elements\n        fruits.set(1, "Blueberry");\n        System.out.println("After set: " + fruits);\n        \n        // Remove elements\n        fruits.remove("Date");\n        System.out.println("After remove: " + fruits);\n        \n        // Check if element exists\n        System.out.println("Has Apple? " + fruits.contains("Apple"));\n        \n        // Loop through ArrayList\n        System.out.println("\\nAll fruits:");\n        for (String fruit : fruits) {\n            System.out.println("  - " + fruit);\n        }\n        \n        // ArrayList of integers (use Integer, not int)\n        ArrayList<Integer> numbers = new ArrayList<>();\n        numbers.add(10);\n        numbers.add(20);\n        numbers.add(30);\n        System.out.println("\\nNumbers: " + numbers);\n    }\n}`,
+        title: 'In-Depth ArrayList Methods',
+        defaultCode: `import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> fruits = new ArrayList<>();\n        \n        // 1. Adding elements: add(element) or add(index, element)\n        fruits.add("Apple");\n        fruits.add("Banana");\n        fruits.add(1, "Cherry"); // Inserts at index 1, shifts Banana down\n        System.out.println("After adding: " + fruits);\n        System.out.println("Size: " + fruits.size());\n        \n        // 2. Accessing & Modifying: get(index) and set(index, newElement)\n        System.out.println("Element at index 0: " + fruits.get(0));\n        fruits.set(0, "Avocado"); // Replaces Apple\n        System.out.println("After set: " + fruits);\n        \n        // 3. Removing elements: remove(index) or remove(Object)\n        fruits.remove("Banana");\n        System.out.println("After removing Banana: " + fruits);\n        \n        // 4. Searching: contains(Object) and indexOf(Object)\n        System.out.println("Contains Cherry? " + fruits.contains("Cherry"));\n        System.out.println("Index of Cherry: " + fruits.indexOf("Cherry"));\n        \n        // 5. Using Wrapper Classes for primitives\n        ArrayList<Integer> scores = new ArrayList<>();\n        scores.add(95);\n        scores.add(80);\n        \n        // 6. Clearing all elements: clear() and isEmpty()\n        scores.clear();\n        System.out.println("Scores after clear (empty? " + scores.isEmpty() + "): " + scores);\n    }\n}`,
       },
       {
         type: 'info',

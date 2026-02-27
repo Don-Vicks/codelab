@@ -67,6 +67,11 @@ export const javaFundamentals = [
         title: 'Declaring vs Initializing',
         content: `You can **declare** a variable (create it) and **initialize** it (give it a value) separately:\n\n\`\`\`\nint score;         // Declaration (no value yet)\nscore = 95;        // Initialization (now it has a value)\n\nint score = 95;    // Declaration + Initialization in one line\n\`\`\`\n\nYou can also declare multiple variables of the same type on one line:\n\n\`int x = 5, y = 10, z = 15;\``,
       },
+      {
+        type: 'editor',
+        title: 'Lab Task 2B: Student Information Manager',
+        defaultCode: `// Store and print a student's name, age, GPA, isGraduating, and grade.\npublic class StudentInfo {\n    public static void main(String[] args) {\n        // Declare variables and initialize them\n        \n        // Print them out\n        System.out.println("Student Information");\n        System.out.println("-------------------");\n    }\n}`,
+      },
     ],
   },
   {
@@ -133,6 +138,33 @@ export const javaFundamentals = [
         title: 'Common Bug: nextLine() after nextInt()',
         content:
           "After calling nextInt(), there's a leftover newline character. If you call nextLine() right after, it reads that empty line. Fix: add an extra scanner.nextLine() to consume it.",
+      },
+    ],
+  },
+  {
+    id: 'best-practices-errors',
+    module: 'Java Fundamentals',
+    moduleIndex: 2,
+    title: 'Best Practices & Common Errors',
+    description:
+      'Learn good coding standards, naming conventions, and how to spot common Java errors before they happen.',
+    sections: [
+      {
+        type: 'text',
+        title: 'Naming Conventions',
+        content: `Writing code that works is only half the job. The other half is writing code that people can read! Professional Java developers follow these naming rules:\n\n• **Classes**: Use \`PascalCase\` (e.g., \`FirstProgram\`, \`StudentInfo\`). The first letter of every word is capitalized.\n• **Variables & Methods**: Use \`camelCase\` (e.g., \`studentAge\`, \`calculateTotal()\`). The first letter is lowercase, but subsequent words are capitalized.\n• **Constants**: Use \`UPPER_SNAKE_CASE\` (e.g., \`MAX_SIZE\`, \`PI\`).\n\nAlso, always use **meaningful names**. \`studentAge\` is much better than \`a\`.`,
+      },
+      {
+        type: 'text',
+        title: 'Common Errors & Debugging',
+        content: `As you write Java, you will encounter errors. Don't panic! It's part of the process. Here are the most common types:\n\n**Compilation Errors (Syntax Errors)**:\nThese happen before your program even runs. The compiler catches them.\n• Missing semicolon \`;\` at the end of a statement.\n• Mismatched curly brackets \`{}\`.\n• Using an undefined variable.\n• Your file name doesn't match your \`public class\` name (e.g., file is \`main.java\` but class is \`public class FirstProgram\`).\n\n**Runtime Errors**:\nThese happen while your program is running.\n• **InputMismatchException**: You asked for an \`int\` (e.g., using \`nextInt()\`), but the user typed a String like "hello".\n• Arithmetic exceptions, like dividing by zero.\n\n**Logical Errors**:\nYour program runs, but gives the wrong output.\n• Wrong operator precedence (e.g., \`a + b * c\` when you meant \`(a + b) * c\`).\n• Using the wrong data type.`,
+      },
+      {
+        type: 'info',
+        variant: 'tip',
+        title: 'Golden Rule of Debugging',
+        content:
+          'When you get an error message, read it! Java usually tells you exactly which line caused the problem and what kind of error it is.',
       },
     ],
   },
@@ -293,6 +325,47 @@ export const operators = [
         type: 'text',
         title: 'Bitwise Operators (Advanced)',
         content: `Bitwise operators work on the **binary** (0s and 1s) representation of numbers. **You won't need these as a beginner** — they're listed here just so you know they exist. Feel free to skip this section and come back to it later.\n\n• \`&\` — Bitwise AND\n• \`|\` — Bitwise OR\n• \`^\` — Bitwise XOR (exclusive or)\n• \`~\` — Bitwise NOT (complement)\n• \`<<\` — Left shift\n• \`>>\` — Right shift\n\nFocus on arithmetic, comparison, and logical operators first — those are the ones you'll use daily!`,
+      },
+    ],
+  },
+  {
+    id: 'operator-precedence',
+    module: 'Operators',
+    moduleIndex: 3,
+    title: 'Operator Precedence',
+    description:
+      'Understand the order in which Java evaluates different operators in a single expression.',
+    sections: [
+      {
+        type: 'text',
+        title: 'The Order of Operations',
+        content: `When you have multiple operators in one line of code, which one happens first? Java follows strict rules called **Operator Precedence**, similar to BODMAS/PEMDAS in math.`,
+      },
+      {
+        type: 'table',
+        headers: ['Order', 'Operator Type', 'Symbols'],
+        rows: [
+          ['1 (Highest)', 'Parentheses', '\`()\`'],
+          ['2', 'Multiplicative', '\`*\`, \`/\`, \`%\`'],
+          ['3', 'Additive', '\`+\`, \`-\`'],
+          ['4', 'Relational', '\`>\`, \`<\`, \`>=\`, \`<=\`'],
+          ['5', 'Equality', '\`==\`, \`!=\`'],
+          ['6', 'Logical AND', '\`&&\`'],
+          ['7', 'Logical OR', '\`||\`'],
+          ['8 (Lowest)', 'Assignment', '\`=\`, \`+=\`, \`-=\`, etc.'],
+        ],
+      },
+      {
+        type: 'editor',
+        title: 'Precedence in Action',
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // Multiplication happens before addition\n        int result1 = 10 - 2 + 5;      // (10 - 2) + 5 = 13 (evaluated left-to-right)\n        int result2 = 10 - (2 + 5);    // 10 - 7 = 3 (parentheses first)\n        \n        System.out.println("10 - 2 + 5 = " + result1);\n        System.out.println("10 - (2 + 5) = " + result2);\n        \n        int math1 = 5 + 3 * 2;         // 5 + 6 = 11\n        int math2 = (5 + 3) * 2;       // 8 * 2 = 16\n        \n        System.out.println("5 + 3 * 2 = " + math1);\n        System.out.println("(5 + 3) * 2 = " + math2);\n        \n        // Logical precedence\n        boolean check = true || false && false;\n        // AND (&&) has higher precedence than OR (||)\n        // So it evaluates false && false first (which is false)\n        // Then evaluates true || false (which is true)\n        \n        System.out.println("true || false && false = " + check);\n    }\n}`,
+      },
+      {
+        type: 'info',
+        variant: 'tip',
+        title: 'When in doubt, use parentheses!',
+        content:
+          'Even if you memorize the precedence rules, adding parentheses like \`(a + b) * c\` makes your code much easier for other humans to read and guarantees the order of evaluation.',
       },
     ],
   },

@@ -183,7 +183,7 @@ export const gettingStarted = [
       {
         type: 'text',
         title: 'Java in Simple Terms',
-        content: `Java is a **programming language** — one of the most popular ones in the world. It was created in 1995 and is still used everywhere today.\n\nWhat makes Java special is that code you write in Java can run on almost any computer — Windows, Mac, Linux, phones, you name it. This is because Java has something called the **JVM (Java Virtual Machine)** that translates your code for whatever device it\'s running on.`,
+        content: `Java is a **programming language** — one of the most popular ones in the world. It was created in 1995 and is still used everywhere today.\n\nWhat makes Java special is that it follows the **"Write Once, Run Anywhere" (WORA)** principle. Code you write in Java can run on almost any computer — Windows, Mac, Linux, phones, you name it. This is because Java has something called the **JVM (Java Virtual Machine)** that translates your code for whatever device it\'s running on.\n\nAnother great feature is **Garbage Collection (Automatic Memory Management)**. Java automatically cleans up computer memory by finding and deleting data your program no longer needs, preventing crashes and slowdowns!`,
       },
       {
         type: 'text',
@@ -271,6 +271,11 @@ export const gettingStarted = [
         type: 'editor',
         title: 'Try It — Change the message to your name!',
         defaultCode: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("My name is ___");\n        System.out.println("I am learning Java!");\n        System.out.println("This is exciting!");\n    }\n}`,
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task 2A: First Java Program',
+        defaultCode: `// Write a program that prints a welcome message.\npublic class FirstProgram {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}`,
       },
     ],
   },

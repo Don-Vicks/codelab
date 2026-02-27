@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 3: Arrays & Methods</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+        color: #333;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .slides-container {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        animation: slideIn 0.5s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .active-slide {
+        display: block;
+      }
+      .slide-header {
+        background: linear-gradient(90deg, #283593, #3949ab);
+        color: white;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .slide-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .slide-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+      .slide-content {
+        padding: 0 20px 20px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+      .content-block {
+        background: #f8f9fa;
+        border-left: 5px solid #3949ab;
+        padding: 18px;
+        margin: 20px 0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      }
+      .code-block {
+        background: #263238;
+        color: #e0f7fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        overflow-x: auto;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .keyword {
+        color: #ff9800;
+        font-weight: bold;
+      }
+      .string {
+        color: #4caf50;
+      }
+      .comment {
+        color: #9e9e9e;
+      }
+      .table-container {
+        overflow-x: auto;
+        margin: 20px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      th {
+        background: #3949ab;
+        color: white;
+        padding: 15px;
+        text-align: left;
+      }
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      tr:hover {
+        background: #f5f5f5;
+      }
+      .nav-controls {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+      }
+      .nav-btn {
+        background: #3949ab;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+      .nav-btn:hover {
+        background: #283593;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+      .nav-btn:active {
+        transform: translateY(0);
+      }
+      .slide-counter {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        background: rgba(57, 73, 171, 0.9);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      .slide-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px dashed #ddd;
+        font-size: 0.9rem;
+        color: #666;
+        text-align: center;
+      }
+      .highlight {
+        background: #fff9c4;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .important {
+        color: #d32f2f;
+        font-weight: 700;
+      }
+      .lab-task {
+        background: #e8f5e9;
+        border-left-color: #4caf50;
+        padding: 20px;
+        margin: 25px 0;
+      }
+      .lab-title {
+        color: #2e7d32;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .lab-title::before {
+        content: '🔬';
+        font-size: 1.2rem;
+      }
+      @media (max-width: 768px) {
+        .slide-title {
+          font-size: 1.8rem;
+        }
+        .slide-content {
+          padding: 0 10px 10px;
+          font-size: 1rem;
+        }
+        .nav-controls {
+          bottom: 20px;
+          right: 20px;
+        }
+        .slide-counter {
+          bottom: 20px;
+          left: 20px;
+        }
+        .nav-btn {
+          padding: 12px 18px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Slide 1: Title Slide -->
+    <div class="slides-container active-slide" id="slide1">
+      <div class="slide-header">
+        <h1 class="slide-title">COS201: COMPUTER PROGRAMMING I – JAVA</h1>
+        <p class="slide-subtitle">Lecture 3: Arrays & Methods</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h2>Structuring Data & Code Modularity</h2>
+          <p>
+            Learn how to store multiple values Efficiently and create reusable
+            blocks of code.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Topics Covered</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              Understanding Arrays (Declaration, Initialization, Indexing)
+            </li>
+            <li>Processing Arrays (Loops & length)</li>
+            <li>Understanding Methods (Functions)</li>
+            <li>Method Parameters & Return Values</li>
+          </ul>
+        </div>
+
+        <div class="slide-footer">
+          Slide 1 of 12 • Use navigation buttons to proceed
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: What is an Array? -->
+    <div class="slides-container" id="slide2">
+      <div class="slide-header">
+        <h1 class="slide-title">What is an Array?</h1>
+        <p class="slide-subtitle">Storing a collection of values</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Definition</h3>
+          <p>
+            An array is a data structure used to store a fixed-size sorted
+            collection of elements of the same type. It allows storing multiple
+            variables under a single name.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Key Features:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Fixed Size:</span> Configured when
+              instantiated.
+            </li>
+            <li>
+              <span class="highlight">Indexed:</span> Starting from 0 to `length
+              - 1`.
+            </li>
+            <li>
+              <span class="highlight">Same Type:</span> E.g., An array of `int`s
+              can only hold integers.
+            </li>
+          </ul>
+        </div>
+
+        <div class="slide-footer">Slide 2 of 12 • Arrays Introduction</div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Array Declaration & Access -->
+    <div class="slides-container" id="slide3">
+      <div class="slide-header">
+        <h1 class="slide-title">Array Declaration & Access</h1>
+        <p class="slide-subtitle">Creating and returning array items</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Declaration and Initialization:</h3>
+          <div class="code-block">
+            <span class="comment">// 1. Declaration only</span><br />
+            <span class="keyword">int</span>[] scores;<br />
+            scores = <span class="keyword">new</span>
+            <span class="keyword">int</span>[<span class="string">5</span>];
+            <span class="comment">// Array holds 5 integers</span><br /><br />
+            <span class="comment">// 2. Declaration with Initialization</span
+            ><br />
+            String[] names = {<span class="string">"Ali"</span>,
+            <span class="string">"Musa"</span>,
+            <span class="string">"Binta"</span>};
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Accessing Elements:</h3>
+          <div class="code-block">
+            System.out.println(names[<span class="string">0</span>]);
+            <span class="comment">// Prints "Ali"</span><br />
+            names[<span class="string">1</span>] =
+            <span class="string">"Sani"</span>;
+            <span class="comment">// Changes "Musa" to "Sani"</span>
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 3 of 12 • Array Basics</div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Processing Arrays -->
+    <div class="slides-container" id="slide4">
+      <div class="slide-header">
+        <h1 class="slide-title">Processing Arrays</h1>
+        <p class="slide-subtitle">Iterating with Loops</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Using the <code>length</code> property:</h3>
+          <p>
+            Every array has a <code>length</code> property indicating its size.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Example: Printing all elements</h3>
+          <div class="code-block">
+            <span class="keyword">int</span>[] numbers = {<span class="string"
+              >10</span
+            >, <span class="string">20</span>, <span class="string">30</span>,
+            <span class="string">40</span>,
+            <span class="string">50</span>};<br />
+            <span class="keyword">for</span> (<span class="keyword">int</span> i
+            = <span class="string">0</span>; i < numbers.length; i++) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string"
+              >"Element at index "</span
+            >
+            + i + <span class="string">": "</span> + numbers[i]);<br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 4 of 12 • Arrays and Loops</div>
+      </div>
+    </div>
+
+    <!-- Slide 5: The For-Each Loop -->
+    <div class="slides-container" id="slide5">
+      <div class="slide-header">
+        <h1 class="slide-title">The For-Each Loop</h1>
+        <p class="slide-subtitle">Enhanced Loop for Arrays</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Definition</h3>
+          <p>
+            Introduced in Java 5, the enhanced <code>for</code> loop provides a
+            simpler way to iterate through an array or collection, avoiding
+            index manipulation.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Example:</h3>
+          <div class="code-block">
+            String[] fruits = {<span class="string">"Apple"</span>,
+            <span class="string">"Mango"</span>,
+            <span class="string">"Banana"</span>};<br />
+            <span class="keyword">for</span> (String fruit : fruits) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(fruit);<br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 5 of 12 • Enhanced Loop</div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Array Task -->
+    <div class="slides-container" id="slide6">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Task: Array Operations</h1>
+        <p class="slide-subtitle">Sum and Average</p>
+      </div>
+      <div class="slide-content">
+        <div class="lab-task">
+          <div class="lab-title">Task Description:</div>
+          <p>
+            Write a program that stores 5 student grades in an array. Calculate
+            and print the sum and average of these grades.
+          </p>
+        </div>
+        <div class="content-block">
+          <h3>Hint:</h3>
+          <p>
+            Initialize a <code>sum</code> variable to 0. Use a loop to iterate
+            through the array, adding each element to the <code>sum</code>.
+            Finally, compute average: <code>sum / length</code>.
+          </p>
+        </div>
+        <div class="slide-footer">Slide 6 of 12 • Array Computations</div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Introduction to Methods -->
+    <div class="slides-container" id="slide7">
+      <div class="slide-header">
+        <h1 class="slide-title">Introduction to Methods</h1>
+        <p class="slide-subtitle">Modular Code Design</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>What is a Method?</h3>
+          <p>
+            A method is a block of code which only runs when it is called. You
+            can pass data, known as parameters, into a method, and they can
+            return a result.
+          </p>
+          <p>
+            They are used to perform certain actions, and they are also known as
+            <span class="highlight">functions</span>.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Why use Methods?</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Code Reusability:</span> Reuse logic
+              without copy-pasting code.
+            </li>
+            <li>
+              <span class="highlight">Readability:</span> Break down complex
+              problems into smaller understandable components.
+            </li>
+          </ul>
+        </div>
+
+        <div class="slide-footer">Slide 7 of 12 • Method Intro</div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Declaring a Method -->
+    <div class="slides-container" id="slide8">
+      <div class="slide-header">
+        <h1 class="slide-title">Declaring a Method</h1>
+        <p class="slide-subtitle">Syntax & Structure</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Structure:</h3>
+          <div class="code-block">
+            <span class="keyword">public static</span> returnType
+            methodName(type arg1, type arg2) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+              >// method body / logic inside</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> value;
+            <span class="comment">// if return type is not void</span><br />
+            }
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Example: Void Method</h3>
+          <div class="code-block">
+            <span class="keyword">public static void</span> printGreeting(String
+            name) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string"
+              >"Hello, "</span
+            >
+            + name + <span class="string">"!"</span>);<br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 8 of 12 • Method Syntax</div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Calling a Method -->
+    <div class="slides-container" id="slide9">
+      <div class="slide-header">
+        <h1 class="slide-title">Calling a Method</h1>
+        <p class="slide-subtitle">Invoking Logic</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Usage inside <code>main</code></h3>
+          <div class="code-block">
+            <span class="keyword">public class</span> Main {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+              >public static void</span
+            >
+            printGreeting(String name) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+              class="string"
+              >"Hello, "</span
+            >
+            + name + <span class="string">"!"</span>);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+              >public static void</span
+            >
+            main(String[] args) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="comment"
+              >// Call the method</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printGreeting(<span
+              class="string"
+              >"Donvicks"</span
+            >);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            }
+          </div>
+        </div>
+        <div class="slide-footer">Slide 9 of 12 • Method Invocation</div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Methods with Return Values -->
+    <div class="slides-container" id="slide10">
+      <div class="slide-header">
+        <h1 class="slide-title">Methods with Return Values</h1>
+        <p class="slide-subtitle">Capturing Output</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Returning Data</h3>
+          <p>
+            If you want a method to return a specific data type instead of
+            <code>void</code>, specify the type and use the
+            <code>return</code> keyword.
+          </p>
+          <div class="code-block">
+            <span class="keyword">public static int</span> addNumbers(<span
+              class="keyword"
+              >int</span
+            >
+            a, <span class="keyword">int</span> b) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> a +
+            b;<br />
+            }<br /><br />
+            <span class="keyword">public static void</span> main(String[] args)
+            {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span> result =
+            addNumbers(<span class="string">5</span>,
+            <span class="string">10</span>);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string"
+              >"Result: "</span
+            >
+            + result); <span class="comment">// Prints 15</span><br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 10 of 12 • Return statements</div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Lab Task - Calculator App -->
+    <div class="slides-container" id="slide11">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Task: Calculator</h1>
+        <p class="slide-subtitle">Combining Methods</p>
+      </div>
+      <div class="slide-content">
+        <div class="lab-task">
+          <div class="lab-title">Task Description:</div>
+          <p>
+            Create a Java program containing 4 separate methods for Addition,
+            Subtraction, Multiplication, and Division.
+          </p>
+          <p>
+            Then, from the `main` method, prompt the user to output operation
+            responses by invoking the respective methods.
+          </p>
+        </div>
+        <div class="slide-footer">Slide 11 of 12 • Modular Mini-Project</div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Summary -->
+    <div class="slides-container" id="slide12">
+      <div class="slide-header">
+        <h1 class="slide-title">Lecture Summary</h1>
+        <p class="slide-subtitle">Key Takeaways</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>What We Covered:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              Arrays manage fixed-size collections of homogeneous items
+              efficiently.
+            </li>
+            <li>
+              For and For-Each loops are powerful means to iterate array
+              contents.
+            </li>
+            <li>
+              Methods ensure better software organization avoiding duplicate
+              repetitive codes.
+            </li>
+            <li>
+              Methods process parameters and emit results using return types.
+            </li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Next Lecture Preview:</h3>
+          <p>
+            <span class="highlight">Lecture 4: Object-Oriented Principles</span>
+          </p>
+        </div>
+        <div class="slide-footer">Slide 12 of 12 • Conclusion</div>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn">← Previous</button>
+      <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+    <div class="slide-counter" id="slideCounter">Slide 1 of 12</div>
+
+    <script>
+      let currentSlide = 1
+      const totalSlides = 12
+      function updateCounter() {
+        document.getElementById('slideCounter').textContent =
+          `Slide ${currentSlide} of ${totalSlides}`
+      }
+      function showSlide(slideNumber) {
+        for (let i = 1; i <= totalSlides; i++) {
+          let slide = document.getElementById(`slide${i}`)
+          if (slide) slide.classList.remove('active-slide')
+        }
+        let currentSlideElement = document.getElementById(`slide${slideNumber}`)
+        if (currentSlideElement)
+          currentSlideElement.classList.add('active-slide')
+        currentSlide = slideNumber
+        updateCounter()
+        window.scrollTo(0, 0)
+      }
+      function nextSlide() {
+        if (currentSlide < totalSlides) showSlide(currentSlide + 1)
+      }
+      function prevSlide() {
+        if (currentSlide > 1) showSlide(currentSlide - 1)
+      }
+      document.getElementById('nextBtn').addEventListener('click', nextSlide)
+      document.getElementById('prevBtn').addEventListener('click', prevSlide)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide()
+        else if (e.key === 'ArrowLeft') prevSlide()
+      })
+      let touchStartX = 0
+      let touchEndX = 0
+      document.addEventListener(
+        'touchstart',
+        (e) => (touchStartX = e.changedTouches[0].screenX),
+      )
+      document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX
+        if (touchStartX - touchEndX > 50) nextSlide()
+        else if (touchEndX - touchStartX > 50) prevSlide()
+      })
+      updateCounter()
+    </script>
+  </body>
+</html>

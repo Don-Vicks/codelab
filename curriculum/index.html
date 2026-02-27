@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Java Curriculum Lectures</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+        color: #333;
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+      .header {
+        background: linear-gradient(90deg, #283593, #3949ab);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+      .title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+      .content {
+        padding: 40px;
+      }
+      .lecture-list {
+        list-style: none;
+      }
+      .lecture-item {
+        margin-bottom: 20px;
+      }
+      .lecture-link {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.3s ease;
+        border-left: 5px solid #3949ab;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      }
+      .lecture-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        background: #fff;
+      }
+      .lecture-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #3949ab;
+        margin-right: 20px;
+        min-width: 40px;
+      }
+      .lecture-details h3 {
+        font-size: 1.3rem;
+        margin-bottom: 5px;
+        color: #1a237e;
+      }
+      .lecture-details p {
+        color: #666;
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 30px;
+        color: #3949ab;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">Java Curriculum</h1>
+        <p class="subtitle">COS201: COMPUTER PROGRAMMING I – JAVA</p>
+      </div>
+      <div class="content">
+        <ul class="lecture-list">
+          <li class="lecture-item">
+            <a href="lecture1.html" class="lecture-link">
+              <div class="lecture-number">01</div>
+              <div class="lecture-details">
+                <h3>Introduction to Programming & Java Basics</h3>
+                <p>
+                  Program structure, data types, variables, operators, and basic
+                  I/O.
+                </p>
+              </div>
+            </a>
+          </li>
+          <li class="lecture-item">
+            <a href="lecture2.html" class="lecture-link">
+              <div class="lecture-number">02</div>
+              <div class="lecture-details">
+                <h3>Control Structures & Program Flow</h3>
+                <p>
+                  Conditional statements (if, switch) and iteration (for, while,
+                  do-while loops).
+                </p>
+              </div>
+            </a>
+          </li>
+          <li class="lecture-item">
+            <a href="lecture3.html" class="lecture-link">
+              <div class="lecture-number">03</div>
+              <div class="lecture-details">
+                <h3>Arrays & Methods</h3>
+                <p>
+                  Storing multiple values efficiently and writing modular,
+                  reusable code.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <a href="/" class="back-link">← Back to CodeLab</a>
+      </div>
+    </div>
+  </body>
+</html>

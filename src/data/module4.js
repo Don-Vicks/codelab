@@ -20,8 +20,23 @@ export const controlFlow = [
       },
       {
         type: 'text',
+        title: 'Nested If Statements',
+        content: `You can also put an \`if\` statement inside another \`if\` statement. This is called a **nested if statement**. It's useful when you need to check multiple conditions in a specific sequence.`,
+      },
+      {
+        type: 'editor',
+        title: 'Try Nested Ifs',
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        int age = 20;\n        int weight = 60;\n        \n        // Checking blood donation eligibility\n        if (age >= 18) {\n            if (weight > 50) {\n                System.out.println("You are eligible to donate blood.");\n            } else {\n                System.out.println("Wait! Your weight must be over 50kg.");\n            }\n        } else {\n            System.out.println("You must be at least 18 to donate blood.");\n        }\n    }\n}`,
+      },
+      {
+        type: 'text',
         title: 'The Ternary Operator',
         content: `The **ternary operator** is a one-line shorthand for simple if/else:\n\n\`variable = (condition) ? valueIfTrue : valueIfFalse;\`\n\nFor example:\n\`String result = (score >= 50) ? "Pass" : "Fail";\`\n\nThis is just a shortcut — if you find it confusing, stick with regular if/else for now. You can always come back to this once you\'re more comfortable.`,
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task: Grading System',
+        defaultCode: `// Write a program that takes a student's score and prints their grade.\n// A: >= 70, B: >= 60, C: >= 50, D: >= 45, F: < 45\npublic class GradingSystem {\n    public static void main(String[] args) {\n        int score = 65;\n        // Your code here\n        \n    }\n}`,
       },
     ],
   },
@@ -49,6 +64,11 @@ export const controlFlow = [
         title: "Don't Forget break!",
         content:
           'Without `break`, Java will "fall through" and execute ALL cases below the matching one. This is a very common bug!',
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task: Temperature Converter',
+        defaultCode: `// Simulate a menu to convert temperatures.\npublic class TempConverter {\n    public static void main(String[] args) {\n        int choice = 1; // 1 for C to F, 2 for F to C\n        double temp = 25.0;\n        \n        // Use a switch statement to handle choice\n        // Formula: F = (C * 9/5) + 32\n        // Formula: C = (F - 32) * 5/9\n        \n    }\n}`,
       },
     ],
   },
@@ -79,6 +99,11 @@ export const controlFlow = [
         type: 'text',
         title: 'For Loop Breakdown',
         content: `The for loop has three parts:\n\n\`for (initialization; condition; update)\`\n\n• **Initialization**: \`int i = 0\` — runs once at the start\n• **Condition**: \`i < 10\` — checked before each iteration\n• **Update**: \`i++\` — runs after each iteration\n\n\`for (int i = 0; i < 10; i++)\` means: start at 0, while less than 10, increment by 1.`,
+      },
+      {
+        type: 'editor',
+        title: 'Lab Task: Multiplication Table',
+        defaultCode: `// Print the multiplication table for a number up to 12.\npublic class MultiplicationTable {\n    public static void main(String[] args) {\n        int number = 5;\n        // Use a for loop\n        // Expected output format: 5 x 1 = 5\n        \n    }\n}`,
       },
     ],
   },

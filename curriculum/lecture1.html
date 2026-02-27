@@ -1,0 +1,1432 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 1: Java Programming Basics</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+        color: #333;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .slides-container {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        animation: slideIn 0.5s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .active-slide {
+        display: block;
+      }
+
+      .slide-header {
+        background: linear-gradient(90deg, #283593, #3949ab);
+        color: white;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .slide-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      .slide-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+
+      .slide-content {
+        padding: 0 20px 20px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      .content-block {
+        background: #f8f9fa;
+        border-left: 5px solid #3949ab;
+        padding: 18px;
+        margin: 20px 0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .code-block {
+        background: #263238;
+        color: #e0f7fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        overflow-x: auto;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .keyword {
+        color: #ff9800;
+        font-weight: bold;
+      }
+
+      .string {
+        color: #4caf50;
+      }
+
+      .comment {
+        color: #9e9e9e;
+      }
+
+      .table-container {
+        overflow-x: auto;
+        margin: 20px 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th {
+        background: #3949ab;
+        color: white;
+        padding: 15px;
+        text-align: left;
+      }
+
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      tr:hover {
+        background: #f5f5f5;
+      }
+
+      .nav-controls {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+      }
+
+      .nav-btn {
+        background: #3949ab;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .nav-btn:hover {
+        background: #283593;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+
+      .nav-btn:active {
+        transform: translateY(0);
+      }
+
+      .slide-counter {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        background: rgba(57, 73, 171, 0.9);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .slide-footer {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px dashed #ddd;
+        font-size: 0.9rem;
+        color: #666;
+        text-align: center;
+      }
+
+      .highlight {
+        background: #fff9c4;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+
+      .important {
+        color: #d32f2f;
+        font-weight: 700;
+      }
+
+      .lab-task {
+        background: #e8f5e9;
+        border-left-color: #4caf50;
+        padding: 20px;
+        margin: 25px 0;
+      }
+
+      .lab-title {
+        color: #2e7d32;
+        font-weight: 700;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .lab-title::before {
+        content: '🔬';
+        font-size: 1.2rem;
+      }
+
+      @media (max-width: 768px) {
+        .slide-title {
+          font-size: 1.8rem;
+        }
+        .slide-content {
+          padding: 0 10px 10px;
+          font-size: 1rem;
+        }
+        .nav-controls {
+          bottom: 20px;
+          right: 20px;
+        }
+        .slide-counter {
+          bottom: 20px;
+          left: 20px;
+        }
+        .nav-btn {
+          padding: 12px 18px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Slide 1: Title Slide -->
+    <div class="slides-container active-slide" id="slide1">
+      <div class="slide-header">
+        <h1 class="slide-title">COS201: COMPUTER PROGRAMMING I – JAVA</h1>
+        <p class="slide-subtitle">
+          Nigerian Army University, BIU • Faculty of Computing
+        </p>
+        <p class="slide-subtitle">
+          Lecture 1: Introduction to Programming & Java Basics
+        </p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h2>Welcome to Java Programming!</h2>
+          <p>
+            This course introduces fundamental programming concepts using Java,
+            one of the world's most popular programming languages.
+          </p>
+          <p>
+            <span class="highlight">Course Manual:</span> COS201 Laboratory
+            Manual
+          </p>
+          <p><span class="highlight">Prerequisites:</span> COS101 & COS102</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Instructor's Note</h3>
+          <p>
+            This presentation is built from your course manual content. All
+            examples and lab tasks are directly from the manual pages.
+          </p>
+          <p>
+            Use <span class="highlight">arrow keys</span> or navigation buttons
+            to move between slides.
+          </p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 1 of 20 • Use navigation buttons to proceed
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Learning Objectives -->
+    <div class="slides-container" id="slide2">
+      <div class="slide-header">
+        <h1 class="slide-title">Learning Objectives</h1>
+        <p class="slide-subtitle">
+          What you'll achieve by the end of this lecture
+        </p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>By the end of this lecture, you will be able to:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>Understand the structure of a Java program</li>
+            <li>Identify and use basic Java data types</li>
+            <li>Declare variables and write expressions</li>
+            <li>Write, compile, and run a simple Java program</li>
+            <li>Use basic input/output operations</li>
+            <li>Apply proper coding style and documentation</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Manual Reference</h3>
+          <p>
+            These objectives align with
+            <span class="highlight">Page 2: Lab Objectives</span> and
+            <span class="highlight">Module 1</span> in your manual.
+          </p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 2 of 20 • Based on Course Manual Page 2
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: What is Java? -->
+    <div class="slides-container" id="slide3">
+      <div class="slide-header">
+        <h1 class="slide-title">What is Java?</h1>
+        <p class="slide-subtitle">Understanding the programming language</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Java Characteristics:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">High-level, object-oriented</span>
+              programming language
+            </li>
+            <li>
+              <span class="highlight">Platform-independent:</span> "Write Once,
+              Run Anywhere" (WORA)
+            </li>
+            <li>
+              <span class="highlight">Strongly typed:</span> Every variable must
+              have a declared type
+            </li>
+            <li>
+              <span class="highlight">Automatic memory management</span>
+              (Garbage Collection)
+            </li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Where Java is Used:</h3>
+          <div class="table-container">
+            <table>
+              <tr>
+                <th>Application</th>
+                <th>Examples</th>
+              </tr>
+              <tr>
+                <td>Desktop Applications</td>
+                <td>IDEs, Media Players</td>
+              </tr>
+              <tr>
+                <td>Web Applications</td>
+                <td>Enterprise systems, E-commerce</td>
+              </tr>
+              <tr>
+                <td>Mobile Applications</td>
+                <td>Android apps</td>
+              </tr>
+              <tr>
+                <td>Embedded Systems</td>
+                <td>Smart cards, IoT devices</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          Slide 3 of 20 • Introduction to Java Platform
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Tools You Need -->
+    <div class="slides-container" id="slide4">
+      <div class="slide-header">
+        <h1 class="slide-title">Tools & Setup Required</h1>
+        <p class="slide-subtitle">Manual Reference: Page 2</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Required Software:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight"
+                >Java Development Kit (JDK 11 or higher)</span
+              >
+              - Compiler and runtime
+            </li>
+            <li>
+              <span class="highlight">IDE (Choose one):</span>
+              <ul style="margin-left: 30px">
+                <li>IntelliJ IDEA</li>
+                <li>Eclipse IDE</li>
+                <li>VS Code with Java extension</li>
+              </ul>
+            </li>
+            <li>Terminal/Command Prompt</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Hardware & Manual Guidance:</h3>
+          <p>
+            <span class="highlight"
+              >"A personal computer, either a laptop or a Desktop, and
+              smartphones. Though smartphones are not encouraged, as some Lab
+              Tasks cannot be accomplished."</span
+            >
+          </p>
+          <p class="important">- Course Manual, Page 2</p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 4 of 20 • Directly from Manual Page 2
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Java Program Structure -->
+    <div class="slides-container" id="slide5">
+      <div class="slide-header">
+        <h1 class="slide-title">Java Program Structure</h1>
+        <p class="slide-subtitle">Understanding the basic building blocks</p>
+      </div>
+      <div class="slide-content">
+        <div class="code-block">
+          <span class="keyword">public class</span> HelloWorld {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+            >public static void</span
+          >
+          main(String[] args) {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+            class="string"
+            >"Hello, World!"</span
+          >);<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+          }
+        </div>
+
+        <div class="content-block">
+          <h3>Key Components:</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Class declaration</span> - Every Java
+              program is a class
+            </li>
+            <li>
+              <span class="highlight">Main method</span> - Entry point for
+              execution
+            </li>
+            <li>
+              <span class="highlight">Statements</span> - Instructions ending
+              with semicolon (;)
+            </li>
+            <li>
+              <span class="highlight">Comments</span> - Documentation ignored by
+              compiler
+            </li>
+          </ol>
+        </div>
+
+        <div class="slide-footer">Slide 5 of 20 • Basic Program Template</div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Basic Data Types -->
+    <div class="slides-container" id="slide6">
+      <div class="slide-header">
+        <h1 class="slide-title">Basic Data Types in Java</h1>
+        <p class="slide-subtitle">Manual Reference: Page 3-4</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Two Main Categories (Page 3):</h3>
+          <p>
+            <span class="highlight">1. Primitive Data Types:</span> Store simple
+            values directly in memory
+          </p>
+          <p>
+            <span class="highlight">2. Non-Primitive Data Types:</span> Store
+            references to complex data
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Primitive Data Types (Page 3 Table):</h3>
+          <div class="table-container">
+            <table>
+              <tr>
+                <th>Type</th>
+                <th>Meaning</th>
+                <th>Example</th>
+                <th>Size (bits)</th>
+              </tr>
+              <tr>
+                <td><span class="highlight">int</span></td>
+                <td>Whole numbers</td>
+                <td>int age = 20;</td>
+                <td>32</td>
+              </tr>
+              <tr>
+                <td><span class="highlight">double</span></td>
+                <td>Decimal numbers</td>
+                <td>double price = 199.99;</td>
+                <td>64</td>
+              </tr>
+              <tr>
+                <td><span class="highlight">boolean</span></td>
+                <td>True or false</td>
+                <td>boolean isOpen = true;</td>
+                <td>8 (in arrays)</td>
+              </tr>
+              <tr>
+                <td><span class="highlight">char</span></td>
+                <td>Single character</td>
+                <td>char grade = 'A';</td>
+                <td>16</td>
+              </tr>
+            </table>
+          </div>
+          <p style="margin-top: 10px">
+            <span class="highlight">Default values:</span> int = 0, double =
+            0.0, boolean = false, char = '\u0000'
+          </p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 6 of 20 • From Manual Tables on Page 3
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Non-Primitive Types & Variables -->
+    <div class="slides-container" id="slide7">
+      <div class="slide-header">
+        <h1 class="slide-title">Non-Primitive Types & Variables</h1>
+        <p class="slide-subtitle">Manual Reference: Page 3-4</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Non-Primitive Data Types (Page 3):</h3>
+          <div class="table-container">
+            <table>
+              <tr>
+                <th>Type</th>
+                <th>Meaning</th>
+                <th>Example</th>
+              </tr>
+              <tr>
+                <td><span class="highlight">String</span></td>
+                <td>Sequence of characters</td>
+                <td>String name = "Sani";</td>
+              </tr>
+              <tr>
+                <td><span class="highlight">Arrays</span></td>
+                <td>Multiple values of same type</td>
+                <td>int[] scores = {80, 90, 70};</td>
+              </tr>
+              <tr>
+                <td><span class="highlight">Objects</span></td>
+                <td>Instances of classes</td>
+                <td>Student s = new Student();</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Variable Declaration (Page 4-5):</h3>
+          <div class="code-block">
+            <span class="comment"
+              >// Syntax: dataType variableName = value;</span
+            ><br />
+            <span class="keyword">int</span> studentAge =
+            <span class="string">21</span>;<br />
+            <span class="keyword">String</span> name =
+            <span class="string">"Aliyu"</span>;<br />
+            <span class="keyword">double</span> gpa =
+            <span class="string">3.75</span>;<br />
+            <span class="keyword">boolean</span> isGraduating =
+            <span class="keyword">true</span>;
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 7 of 20 • Manual Pages 3-5</div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Type Casting -->
+    <div class="slides-container" id="slide8">
+      <div class="slide-header">
+        <h1 class="slide-title">Type Casting</h1>
+        <p class="slide-subtitle">Manual Reference: Page 4</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Converting one data type to another</h3>
+          <p>
+            <span class="highlight"
+              >"Type casting means converting one data type into another, for
+              example, turning an int into a double."</span
+            >
+          </p>
+          <p class="important">- Course Manual, Page 4</p>
+        </div>
+
+        <div class="content-block">
+          <h3>1. Widening Casting (Automatic):</h3>
+          <p>Converting a smaller type to a larger type</p>
+          <p>
+            <span class="highlight"
+              >byte → short → char → int → long → float → double</span
+            >
+          </p>
+          <div class="code-block">
+            <span class="keyword">int</span> myInt =
+            <span class="string">9</span>;<br />
+            <span class="keyword">double</span> myDouble = myInt;
+            <span class="comment">// Automatic casting: int to double</span>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>2. Narrowing Casting (Manual):</h3>
+          <p>
+            Converting a larger type to a smaller type (requires explicit cast)
+          </p>
+          <p>
+            <span class="highlight"
+              >double → float → long → int → char → short → byte</span
+            >
+          </p>
+          <div class="code-block">
+            <span class="keyword">double</span> myDouble =
+            <span class="string">9.78d</span>;<br />
+            <span class="keyword">int</span> myInt = (<span class="keyword"
+              >int</span
+            >) myDouble;
+            <span class="comment">// Manual casting: double to int</span>
+          </div>
+        </div>
+
+        <div class="slide-footer">
+          Slide 8 of 20 • Direct examples from Manual Page 4
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Comments in Java -->
+    <div class="slides-container" id="slide9">
+      <div class="slide-header">
+        <h1 class="slide-title">Comments in Java</h1>
+        <p class="slide-subtitle">Manual Reference: Page 4</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>What are Comments?</h3>
+          <p>
+            <span class="highlight"
+              >"A comment is a piece of text included in the code to help humans
+              understand the logic, purpose, or behavior of the program. The
+              compiler ignores comments."</span
+            >
+          </p>
+          <p class="important">- Course Manual, Page 4</p>
+        </div>
+
+        <div class="content-block">
+          <h3>1. Single-Line Comment (//):</h3>
+          <div class="code-block">
+            <span class="keyword">int</span> age =
+            <span class="string">20</span>;
+            <span class="comment"
+              >// this variable stores the student's age</span
+            >
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>2. Multi-Line Comment (/*...*/):</h3>
+          <div class="code-block">
+            <span class="comment"
+              >/* This program calculates the area of a circle. The formula is:
+              area = π * r * r */</span
+            ><br />
+            <span class="keyword">double</span> area =
+            <span class="string">3.14</span> * radius * radius;
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 9 of 20 • Manual Page 4 Examples</div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Operators in Java -->
+    <div class="slides-container" id="slide10">
+      <div class="slide-header">
+        <h1 class="slide-title">Operators in Java</h1>
+        <p class="slide-subtitle">Manual Reference: Page 6</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>1. Arithmetic Operators (Page 6):</h3>
+          <div class="code-block">
+            <span class="keyword">double</span> total = price * quantity;
+            <span class="comment">// Multiplication</span><br />
+            <span class="keyword">int</span> remainder =
+            <span class="string">10</span> % <span class="string">3</span>;
+            <span class="comment">// Modulus (remainder)</span>
+          </div>
+          <p><span class="highlight">+ - * / %</span></p>
+        </div>
+
+        <div class="content-block">
+          <h3>2. Relational Operators (Page 6):</h3>
+          <div class="code-block">
+            <span class="keyword">boolean</span> isAdult = age >=
+            <span class="string">18</span>;
+            <span class="comment">// Greater than or equal</span><br />
+            <span class="keyword">boolean</span> isEqual = x == y;
+            <span class="comment">// Equality check</span>
+          </div>
+          <p><span class="highlight">== != &gt; &lt; &gt;= &lt;=</span></p>
+        </div>
+
+        <div class="content-block">
+          <h3>3. Logical Operators (Page 6):</h3>
+          <div class="code-block">
+            <span class="keyword">if</span> (age >
+            <span class="string">18</span> && isRegistered) { <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"
+              >// Both conditions must be true</span
+            ><br />
+            }
+          </div>
+          <p><span class="highlight">&& (AND) || (OR) ! (NOT)</span></p>
+        </div>
+
+        <div class="slide-footer">Slide 10 of 20 • From Manual Page 6</div>
+      </div>
+    </div>
+
+    <!-- Slide 11: Operator Precedence -->
+    <div class="slides-container" id="slide11">
+      <div class="slide-header">
+        <h1 class="slide-title">Operator Precedence</h1>
+        <p class="slide-subtitle">Manual Reference: Page 6</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Order of Evaluation (Highest to Lowest):</h3>
+          <ol style="margin-left: 20px; margin-top: 15px; font-size: 1rem">
+            <li><span class="highlight">()</span> - Parentheses</li>
+            <li>
+              <span class="highlight">* / %</span> - Multiplication, Division,
+              Modulus
+            </li>
+            <li><span class="highlight">+ -</span> - Addition, Subtraction</li>
+            <li>
+              <span class="highlight">&gt; &lt; &gt;= &lt;=</span> - Comparison
+            </li>
+            <li><span class="highlight">== !=</span> - Equality</li>
+            <li><span class="highlight">&&</span> - Logical AND</li>
+            <li><span class="highlight">||</span> - Logical OR</li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Examples from Manual (Page 6-7):</h3>
+          <div class="code-block">
+            <span class="comment">// Manual Page 7 Examples</span><br />
+            <span class="keyword">int</span> result1 =
+            <span class="string">10</span> - <span class="string">2</span> +
+            <span class="string">5</span>;
+            <span class="comment">// (10-2)+5 = 13</span><br />
+            <span class="keyword">int</span> result2 =
+            <span class="string">10</span> - (<span class="string">2</span> +
+            <span class="string">5</span>);
+            <span class="comment">// 10-7 = 3</span>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Question from Manual (Page 13):</h3>
+          <p>
+            <span class="highlight"
+              >"How does precedence affect a + b * c?"</span
+            >
+          </p>
+          <p>
+            Answer: Multiplication (b * c) happens first, then addition with a.
+          </p>
+        </div>
+
+        <div class="slide-footer">Slide 11 of 20 • Manual Pages 6-7, 13</div>
+      </div>
+    </div>
+
+    <!-- Slide 12: Basic Input/Output -->
+    <div class="slides-container" id="slide12">
+      <div class="slide-header">
+        <h1 class="slide-title">Basic Input/Output</h1>
+        <p class="slide-subtitle">Manual Reference: Lab Tasks</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Output Methods:</h3>
+          <div class="code-block">
+            System.out.print(<span class="string">"Hello"</span>);
+            <span class="comment">// No new line</span><br />
+            System.out.println(<span class="string">"World"</span>);
+            <span class="comment">// Adds new line</span><br />
+            System.out.printf(<span class="string">"Value: %.2f"</span>, price);
+            <span class="comment">// Formatted output</span>
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Input using Scanner (Lab Task 2D):</h3>
+          <div class="code-block">
+            <span class="keyword">import</span> java.util.Scanner;<br /><br />
+            <span class="keyword">public class</span> InputExample {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+              >public static void</span
+            >
+            main(String[] args) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Scanner sc =
+            <span class="keyword">new</span> Scanner(System.in);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.print(<span
+              class="string"
+              >"Enter your name: "</span
+            >);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name =
+            sc.nextLine();<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 12 of 20 • Based on Lab Tasks</div>
+      </div>
+    </div>
+
+    <!-- Slide 13: First Java Program Lab -->
+    <div class="slides-container" id="slide13">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Task 2A: First Java Program</h1>
+        <p class="slide-subtitle">Manual Reference: Page 8-9</p>
+      </div>
+      <div class="slide-content">
+        <div class="lab-task">
+          <div class="lab-title">Instructions (Page 8-9):</div>
+          <ol style="margin-left: 20px; margin-top: 10px">
+            <li>
+              Create a new Java file named
+              <span class="highlight">FirstProgram.java</span>
+            </li>
+            <li>
+              Inside the file, define a public class called
+              <span class="highlight">FirstProgram</span>
+            </li>
+            <li>Add the main method (entry point)</li>
+            <li>
+              Use <span class="highlight">System.out.println()</span> to print a
+              welcome message
+            </li>
+            <li>
+              Compile: <span class="highlight">javac FirstProgram.java</span>
+            </li>
+            <li>Run: <span class="highlight">java FirstProgram</span></li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Code Snippet (Page 9):</h3>
+          <div class="code-block">
+            <span class="keyword">public class</span> FirstProgram {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+              >public static void</span
+            >
+            main(String[] args) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="comment"
+              >// Displaying a welcome message</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+              class="string"
+              >"Welcome to my first Java program!"</span
+            >);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            }
+          </div>
+        </div>
+
+        <div class="content-block">
+          <h3>Expected Output (Page 9):</h3>
+          <div class="code-block">Welcome to my first Java program!</div>
+        </div>
+
+        <div class="slide-footer">
+          Slide 13 of 20 • Directly from Manual Pages 8-9
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 14: Student Information Program -->
+    <div class="slides-container" id="slide14">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Task 2B: Student Information Manager</h1>
+        <p class="slide-subtitle">Manual Reference: Page 9-11</p>
+      </div>
+      <div class="slide-content">
+        <div class="lab-task">
+          <div class="lab-title">Task Description:</div>
+          <p>
+            "Write a Java program that stores a student's: name (String), age
+            (int), GPA (double), isGraduating (boolean), grade (char). Display
+            them in a formatted output."
+          </p>
+          <p class="important">- Manual Page 9</p>
+        </div>
+
+        <div class="content-block">
+          <h3>Code from Manual (Page 10):</h3>
+          <div class="code-block">
+            <span class="keyword">public class</span> StudentInfo {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword"
+              >public static void</span
+            >
+            main(String[] args) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String name =
+            <span class="string">"Talatu James"</span>;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="keyword"
+              >int</span
+            >
+            age = <span class="string">21</span>;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="keyword"
+              >double</span
+            >
+            gpa = <span class="string">3.75</span>;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="keyword"
+              >boolean</span
+            >
+            isGraduating = <span class="keyword">false</span>;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="keyword"
+              >char</span
+            >
+            grade = <span class="string">'A'</span>;<br /><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+              class="string"
+              >"Student Information"</span
+            >);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+              class="string"
+              >"-------------------"</span
+            >);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span
+              class="string"
+              >"Name: "</span
+            >
+            + name);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+              class="comment"
+              >// ... more output lines</span
+            ><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            }
+          </div>
+        </div>
+
+        <div class="slide-footer">Slide 14 of 20 • Manual Pages 9-11</div>
+      </div>
+    </div>
+
+    <!-- Slide 15: Post-Lab Questions -->
+    <div class="slides-container" id="slide15">
+      <div class="slide-header">
+        <h1 class="slide-title">Post-Lab Questions</h1>
+        <p class="slide-subtitle">Discussion Points from Manual</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>From FirstProgram Lab (Page 9):</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>What is the purpose of the main() method in a Java program?</li>
+            <li>Why must the filename and public class name match in Java?</li>
+            <li>What is the difference between print() and println()?</li>
+            <li>Modify the program to print your full biodata</li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>From StudentInfo Lab (Page 11):</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>Why can't we store a decimal number in an int variable?</li>
+            <li>What is the difference between char 'A' and string "A"?</li>
+            <li>
+              Compare memory usage of primitive vs non-primitive data types
+            </li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Teaching Notes:</h3>
+          <p>
+            Use these questions for class discussion or as assignment questions.
+            They're designed to reinforce key concepts from the manual.
+          </p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 15 of 20 • Questions from Manual Pages 9 & 11
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 16: Common Errors & Debugging -->
+    <div class="slides-container" id="slide16">
+      <div class="slide-header">
+        <h1 class="slide-title">Common Errors & Debugging</h1>
+        <p class="slide-subtitle">Based on Manual Content</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Compilation Errors:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li><span class="highlight">Missing semicolon (;)</span></li>
+            <li><span class="highlight">Mismatched brackets { }</span></li>
+            <li><span class="highlight">Undefined variables</span></li>
+            <li>File name ≠ class name</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Runtime Errors (Lab Task 2C Q1, Page 12):</h3>
+          <p>
+            <span class="highlight"
+              >"What happens if you enter a string where an integer is
+              expected?"</span
+            >
+          </p>
+          <p>
+            Answer: <span class="important">InputMismatchException</span> -
+            Program crashes unless handled.
+          </p>
+        </div>
+
+        <div class="content-block">
+          <h3>Logical Errors:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>Wrong operator precedence</li>
+            <li>Incorrect data type usage</li>
+            <li>Off-by-one errors in loops (covered later)</li>
+          </ul>
+        </div>
+
+        <div class="slide-footer">
+          Slide 16 of 20 • Based on Manual Error Scenarios
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 17: Best Practices -->
+    <div class="slides-container" id="slide17">
+      <div class="slide-header">
+        <h1 class="slide-title">Best Practices</h1>
+        <p class="slide-subtitle">From Manual Examples</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Coding Standards:</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Meaningful variable names:</span>
+              <code>studentAge</code> not <code>a</code>
+            </li>
+            <li>
+              <span class="highlight">Consistent indentation:</span> Use 4
+              spaces
+            </li>
+            <li>
+              <span class="highlight">Comment complex logic</span> (as shown in
+              manual)
+            </li>
+            <li><span class="highlight">Test with different inputs</span></li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Naming Conventions:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Classes:</span> PascalCase (FirstProgram)
+            </li>
+            <li>
+              <span class="highlight">Variables/Methods:</span> camelCase
+              (studentAge)
+            </li>
+            <li>
+              <span class="highlight">Constants:</span> UPPER_CASE (MAX_SIZE)
+            </li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>From Manual Page 12 (Lab Task 2C Q2):</h3>
+          <p>
+            <span class="highlight"
+              >"Explain the importance of variable type selection."</span
+            >
+          </p>
+          <p>
+            Answer: Choosing the right type ensures memory efficiency, prevents
+            errors, and makes code clearer.
+          </p>
+        </div>
+
+        <div class="slide-footer">
+          Slide 17 of 20 • Based on Manual Guidelines
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 18: Summary -->
+    <div class="slides-container" id="slide18">
+      <div class="slide-header">
+        <h1 class="slide-title">Lecture Summary</h1>
+        <p class="slide-subtitle">Key Takeaways</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>What We Covered:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>Java program structure and compilation process</li>
+            <li>Primitive and non-primitive data types</li>
+            <li>Variable declaration and type casting</li>
+            <li>Operators and precedence rules</li>
+            <li>Basic input/output using Scanner</li>
+            <li>Writing and running first Java programs</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Manual Modules Covered:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>Module 1: JAVA Programming I Basics (Pages 3-7)</li>
+            <li>Lab Tasks: 2A, 2B (Pages 8-11)</li>
+            <li>Introduction to Lab Tasks 2C, 2D (Pages 11-13)</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Next Lecture Preview:</h3>
+          <p>
+            <span class="highlight"
+              >Lecture 2: Control Structures & Program Flow</span
+            >
+          </p>
+          <ul style="margin-left: 20px; margin-top: 10px">
+            <li>if-else statements and switch cases</li>
+            <li>Loops: for, while, do-while</li>
+            <li>More lab tasks: GradingSystem, TemperatureConverter</li>
+          </ul>
+        </div>
+
+        <div class="slide-footer">
+          Slide 18 of 20 • Summary of Lecture 1 Content
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 19: Lab Work & Homework -->
+    <div class="slides-container" id="slide19">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Work & Homework</h1>
+        <p class="slide-subtitle">Practical Assignments</p>
+      </div>
+      <div class="slide-content">
+        <div class="lab-task">
+          <div class="lab-title">In-class Lab (Today):</div>
+          <ol style="margin-left: 20px; margin-top: 10px">
+            <li>
+              Create and run <span class="highlight">FirstProgram.java</span>
+            </li>
+            <li>
+              Create and run <span class="highlight">StudentInfo.java</span>
+            </li>
+            <li>Experiment with different data types and operators</li>
+            <li>Try the temperature converter (Lab Task 2C)</li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Homework Assignment:</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>
+              Modify FirstProgram to print your full biodata (name, age,
+              department, hobby)
+            </li>
+            <li>
+              Research and write: Difference between <code>print()</code> and
+              <code>println()</code>
+            </li>
+            <li>Explain: Why must filename match public class name in Java?</li>
+            <li>
+              Complete Salary Calculator (Lab Task 2D) if not done in class
+            </li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>Read Ahead:</h3>
+          <p>
+            Manual
+            <span class="highlight"
+              >Module 4: Control Structures (Pages 30-35)</span
+            >
+          </p>
+          <p>
+            Prepare for Lab Tasks: 4A (Grading System) and 4B (Multiplication
+            Table)
+          </p>
+        </div>
+
+        <div class="slide-footer">Slide 19 of 20 • Assignments from Manual</div>
+      </div>
+    </div>
+
+    <!-- Slide 20: References & Q&A -->
+    <div class="slides-container" id="slide20">
+      <div class="slide-header">
+        <h1 class="slide-title">References & Q&A</h1>
+        <p class="slide-subtitle">Resources and Discussion</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Common Questions (From Manual):</h3>
+          <ol style="margin-left: 20px; margin-top: 15px">
+            <li>
+              What if I get "javac not recognized" error? (Check PATH variable)
+            </li>
+            <li>
+              Can I use float instead of double? (Yes, but double is standard)
+            </li>
+            <li>
+              What's the difference between = and ==? (Assignment vs comparison)
+            </li>
+            <li>
+              How to handle invalid user input? (Use validation - covered later)
+            </li>
+          </ol>
+        </div>
+
+        <div class="content-block">
+          <h3>References:</h3>
+          <ul style="margin-left: 20px; margin-top: 15px">
+            <li>
+              <span class="highlight">Primary:</span> COS201 Laboratory Manual
+            </li>
+            <li>Official Java Documentation: docs.oracle.com/javase/</li>
+            <li>
+              Textbook: Introduction to Java Programming by Y. Daniel Liang
+            </li>
+            <li>Online Practice: CodingBat (codingbat.com/java)</li>
+          </ul>
+        </div>
+
+        <div class="content-block">
+          <h3>Download Resources:</h3>
+          <p>Lecture slides and code examples available on LMS</p>
+          <p>Manual PDF: PROGRAMMING I- JAVA.pdf</p>
+        </div>
+
+        <div class="slide-footer">Slide 20 of 20 • End of Lecture 1</div>
+      </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn">← Previous</button>
+      <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+
+    <div class="slide-counter" id="slideCounter">Slide 1 of 20</div>
+
+    <script>
+      let currentSlide = 1
+      const totalSlides = 20
+
+      // Update slide counter
+      function updateCounter() {
+        document.getElementById('slideCounter').textContent =
+          `Slide ${currentSlide} of ${totalSlides}`
+      }
+
+      // Show specific slide
+      function showSlide(slideNumber) {
+        // Hide all slides
+        for (let i = 1; i <= totalSlides; i++) {
+          const slide = document.getElementById(`slide${i}`)
+          if (slide) {
+            slide.classList.remove('active-slide')
+          }
+        }
+
+        // Show current slide
+        const currentSlideElement = document.getElementById(
+          `slide${slideNumber}`,
+        )
+        if (currentSlideElement) {
+          currentSlideElement.classList.add('active-slide')
+        }
+
+        currentSlide = slideNumber
+        updateCounter()
+
+        // Scroll to top of slide
+        window.scrollTo(0, 0)
+      }
+
+      // Next slide
+      function nextSlide() {
+        if (currentSlide < totalSlides) {
+          showSlide(currentSlide + 1)
+        }
+      }
+
+      // Previous slide
+      function prevSlide() {
+        if (currentSlide > 1) {
+          showSlide(currentSlide - 1)
+        }
+      }
+
+      // Event listeners for buttons
+      document.getElementById('nextBtn').addEventListener('click', nextSlide)
+      document.getElementById('prevBtn').addEventListener('click', prevSlide)
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          nextSlide()
+        } else if (e.key === 'ArrowLeft') {
+          prevSlide()
+        } else if (e.key >= 1 && e.key <= 9) {
+          // Jump to slide 1-9
+          const slideNum = parseInt(e.key)
+          if (slideNum <= totalSlides) {
+            showSlide(slideNum)
+          }
+        } else if (e.key === '0' && totalSlides >= 10) {
+          showSlide(10)
+        }
+      })
+
+      // Touch/swipe support for mobile
+      let touchStartX = 0
+      let touchEndX = 0
+
+      document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX
+      })
+
+      document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX
+        handleSwipe()
+      })
+
+      function handleSwipe() {
+        const swipeThreshold = 50
+        const diff = touchStartX - touchEndX
+
+        if (Math.abs(diff) > swipeThreshold) {
+          if (diff > 0) {
+            // Swipe left - next slide
+            nextSlide()
+          } else {
+            // Swipe right - previous slide
+            prevSlide()
+          }
+        }
+      }
+
+      // Initialize
+      updateCounter()
+
+      // Add click to advance on slide content (optional)
+      document.querySelectorAll('.slides-container').forEach((slide) => {
+        slide.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+            // Only advance if not clicking a button
+            if (e.clientX > window.innerWidth / 2) {
+              nextSlide()
+            } else {
+              prevSlide()
+            }
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

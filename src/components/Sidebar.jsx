@@ -86,18 +86,24 @@ export default function Sidebar({
         </div>
 
         {/* Assignment link */}
-        <div
-          className={`px-3 pt-1 ${isCollapsed ? 'flex justify-center' : ''}`}
+        <a
+          href='/assignment/'
+          className={`flex items-center gap-2.5 rounded-md text-sm font-medium transition-all text-zinc-400 hover:bg-surface-tertiary hover:text-zinc-200 mt-1 ${isCollapsed ? 'p-2 justify-center mx-3' : 'w-full px-5 py-2 mx-0'}`}
+          title='Assignment'
         >
-          <a
-            href='/assignment/'
-            className={`flex items-center gap-2.5 rounded-md text-sm font-medium transition-all text-zinc-400 hover:bg-surface-tertiary hover:text-zinc-200 ${isCollapsed ? 'p-2 justify-center' : 'w-full px-5 py-2'}`}
-            title='Assignment'
-          >
-            <span className='text-base shrink-0'>📝</span>
-            {!isCollapsed && 'Assignment'}
-          </a>
-        </div>
+          <span className='text-base shrink-0'>📝</span>
+          {!isCollapsed && 'Assignment'}
+        </a>
+
+        {/* Curriculum link */}
+        <a
+          href='/curriculum/'
+          className={`flex items-center gap-2.5 rounded-md text-sm font-medium transition-all text-zinc-400 hover:bg-surface-tertiary hover:text-zinc-200 mt-1 ${isCollapsed ? 'p-2 justify-center mx-3' : 'w-full px-5 py-2 mx-0'}`}
+          title='Curriculum'
+        >
+          <span className='text-base shrink-0'>📚</span>
+          {!isCollapsed && 'Curriculum'}
+        </a>
 
         {/* Navigation */}
         <nav className='flex-1 overflow-y-auto py-3'>
