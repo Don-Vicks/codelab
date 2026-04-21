@@ -25,8 +25,8 @@ export default function Header({ onToggleSidebar, onSelectView }) {
           <span>🧪</span>
           <span>Playground</span>
         </button>
-        <span className='bg-surface-secondary border border-surface-border text-zinc-400 px-3 py-1 rounded-full text-[0.7rem] font-semibold tracking-wide uppercase'>
-          Java
+        <span className='bg-surface-secondary border border-surface-border text-zinc-400 px-3 py-1 rounded-full text-[0.7rem] font-semibold tracking-wide uppercase group-hover:text-brand-400 transition-colors'>
+          Full Stack
         </span>
       </div>
     </header>
