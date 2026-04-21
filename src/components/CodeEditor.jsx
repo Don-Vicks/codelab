@@ -5,13 +5,16 @@ import { EditorView, basicSetup } from 'codemirror'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { executeJavaCode } from '../utils/pistonApi.js'
 
-export default function CodeEditor({ defaultCode, title }) {
+export default function CodeEditor({ defaultCode, title, language = 'java' }) {
   const editorRef = useRef(null)
   const viewRef = useRef(null)
   const [output, setOutput] = useState(null)
+  const [previewContent, setPreviewContent] = useState('')
   const [isError, setIsError] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
   const [initialCode] = useState(defaultCode)
+
+  const isWeb = ['html', 'css', 'javascript'].includes(language)
 
   useEffect(() => {
     if (!editorRef.current) return
@@ -20,7 +23,8 @@ export default function CodeEditor({ defaultCode, title }) {
       doc: initialCode,
       extensions: [
         basicSetup,
-        java(),
+        // Only use java() if it's actually java
+        language === 'java' ? java() : [],
         oneDark,
         EditorView.theme({
           '&': {
@@ -45,20 +49,46 @@ export default function CodeEditor({ defaultCode, title }) {
     viewRef.current = view
 
     return () => view.destroy()
-  }, [initialCode])
+  }, [initialCode, language])
 
   const handleRun = useCallback(async () => {
     if (isRunning || !viewRef.current) return
     setIsRunning(true)
     setOutput(null)
+    setPreviewContent('')
 
     const code = viewRef.current.state.doc.toString()
-    const result = await executeJavaCode(code)
 
-    setOutput(result.output)
-    setIsError(!result.success)
-    setIsRunning(false)
-  }, [isRunning])
+    if (isWeb) {
+      // For web languages, we show a preview
+      if (language === 'html') {
+        setPreviewContent(code)
+      } else if (language === 'javascript') {
+        // Run JS and capture console.log
+        try {
+          let logs = []
+          const originalLog = console.log
+          console.log = (...args) => {
+            logs.push(args.map((a) => (typeof a === 'object' ? JSON.stringify(a) : a)).join(' '))
+          }
+          new Function(code)()
+          console.log = originalLog
+          setOutput(logs.join('\n') || '(Code executed with no console output)')
+          setIsError(false)
+        } catch (err) {
+          setOutput(err.message)
+          setIsError(true)
+        }
+      }
+      setIsRunning(false)
+    } else {
+      // For Java, use the API
+      const result = await executeJavaCode(code)
+      setOutput(result.output)
+      setIsError(!result.success)
+      setIsRunning(false)
+    }
+  }, [isRunning, isWeb, language])
 
   const handleReset = useCallback(() => {
     if (!viewRef.current) return
@@ -70,6 +100,7 @@ export default function CodeEditor({ defaultCode, title }) {
       },
     })
     setOutput(null)
+    setPreviewContent('')
     setIsError(false)
   }, [initialCode])
 
@@ -79,7 +110,7 @@ export default function CodeEditor({ defaultCode, title }) {
       <div className='flex items-center justify-between px-4 py-2 bg-surface-secondary border-b border-surface-border'>
         <div className='flex items-center gap-2'>
           <span className='text-xs text-zinc-500 font-mono'>
-            {title || 'Main.java'}
+            {title || (language === 'java' ? 'Main.java' : language === 'html' ? 'index.html' : 'script.js')}
           </span>
         </div>
         <div className='flex gap-2'>
@@ -93,9 +124,7 @@ export default function CodeEditor({ defaultCode, title }) {
             onClick={handleRun}
             disabled={isRunning}
             className={`flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white rounded transition-all font-sans ${
-              isRunning
-                ? 'bg-brand-700 opacity-70 cursor-not-allowed'
-                : 'bg-brand-600 hover:bg-brand-500'
+              isRunning ? 'bg-brand-700 opacity-70 cursor-not-allowed' : 'bg-brand-600 hover:bg-brand-500'
             }`}
           >
             {isRunning ? (
@@ -104,7 +133,7 @@ export default function CodeEditor({ defaultCode, title }) {
                 Running...
               </>
             ) : (
-              <>Run Code</>
+              <>{isWeb && language !== 'javascript' ? 'Preview' : 'Run Code'}</>
             )}
           </button>
         </div>
@@ -113,22 +142,36 @@ export default function CodeEditor({ defaultCode, title }) {
       {/* Editor */}
       <div className='bg-surface-editor min-h-[120px]' ref={editorRef} />
 
-      {/* Output */}
-      <div className='bg-surface-output border-t border-surface-border px-4 py-3 min-h-[48px]'>
-        <div className='text-[0.65rem] font-bold tracking-widest uppercase text-zinc-600 mb-2'>
-          Output
+      {/* Output / Preview */}
+      <div className='bg-surface-output border-t border-surface-border'>
+        <div className='px-4 py-1.5 border-b border-surface-border/50'>
+          <div className='text-[0.65rem] font-bold tracking-widest uppercase text-zinc-600'>
+            {previewContent ? 'Live Preview' : 'Output'}
+          </div>
         </div>
-        {output !== null ? (
-          <pre
-            className={`font-mono text-sm whitespace-pre-wrap break-words leading-relaxed ${isError ? 'text-red-400' : 'text-brand-300'}`}
-          >
-            {output}
-          </pre>
-        ) : (
-          <p className='text-zinc-700 text-sm italic'>
-            Click "Run Code" to see the output...
-          </p>
-        )}
+
+        <div className='px-4 py-3 min-h-[48px]'>
+          {previewContent ? (
+            <div className='rounded bg-white p-4 h-full min-h-[100px]'>
+              <iframe
+                title='preview'
+                srcDoc={previewContent}
+                className='w-full border-none min-h-[100px]'
+                sandbox='allow-scripts'
+              />
+            </div>
+          ) : output !== null ? (
+            <pre
+              className={`font-mono text-sm whitespace-pre-wrap break-words leading-relaxed ${isError ? 'text-red-400' : 'text-brand-300'}`}
+            >
+              {output}
+            </pre>
+          ) : (
+            <p className='text-zinc-700 text-sm italic'>
+              Click "{isWeb && language !== 'javascript' ? 'Preview' : 'Run Code'}" to see the results...
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

@@ -2,6 +2,8 @@ import { controlFlow } from './module4.js'
 import { gettingStarted, programmingBasics } from './modules01.js'
 import { javaFundamentals, operators } from './modules23.js'
 import { classesMethods, workingWithData } from './modules56.js'
+import { htmlFundamentals, webForms, javascriptValidation, fullProjectExamples } from './webDevelopment.js'
+import { examFoundations, examLogic, examAdvanced } from './examSolutions.js'
 
 export const modules = [
   {
@@ -17,6 +19,48 @@ export const modules = [
     lessons: gettingStarted,
   },
   {
+    title: 'HTML Essentials',
+    icon: '🌐',
+    color: 'bg-orange-500/10',
+    lessons: htmlFundamentals,
+  },
+  {
+    title: 'Web Forms',
+    icon: '📝',
+    color: 'bg-emerald-500/10',
+    lessons: webForms,
+  },
+  {
+    title: 'JavaScript & Validation',
+    icon: '⚡',
+    color: 'bg-yellow-500/10',
+    lessons: javascriptValidation,
+  },
+  {
+    title: 'Full Code Examples',
+    icon: '🏗️',
+    color: 'bg-indigo-500/10',
+    lessons: fullProjectExamples,
+  },
+  {
+    title: 'Exam Prep: Foundations',
+    icon: '📝',
+    color: 'bg-rose-500/10',
+    lessons: examFoundations,
+  },
+  {
+    title: 'Exam Prep: Logic',
+    icon: '🧮',
+    color: 'bg-amber-500/10',
+    lessons: examLogic,
+  },
+  {
+    title: 'Exam Prep: Advanced',
+    icon: '🧬',
+    color: 'bg-purple-500/10',
+    lessons: examAdvanced,
+  },
+  {
     title: 'Java Fundamentals',
     icon: '📦',
     color: 'bg-cyan-500/10',
@@ -25,7 +69,7 @@ export const modules = [
   {
     title: 'Operators',
     icon: '➕',
-    color: 'bg-amber-500/10',
+    color: 'bg-stone-500/10',
     lessons: operators,
   },
   {
@@ -37,7 +81,7 @@ export const modules = [
   {
     title: 'Classes & Methods',
     icon: '🏗️',
-    color: 'bg-rose-500/10',
+    color: 'bg-orange-500/10',
     lessons: classesMethods,
   },
   {

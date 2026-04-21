@@ -93,7 +93,10 @@ export default function LessonView({
                   {section.title}
                 </h3>
               )}
-              <CodeEditor defaultCode={section.defaultCode} />
+              <CodeEditor
+                defaultCode={section.defaultCode}
+                language={lesson.language}
+              />
             </div>
           )}
 
