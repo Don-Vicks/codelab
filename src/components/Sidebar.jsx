@@ -1,15 +1,18 @@
-import { modules } from '../data/index.js'
+import { getModulesForLanguage } from '../data/index.js'
 
 export default function Sidebar({
   currentLessonId,
   currentView,
+  currentLanguage,
   onSelectLesson,
   onSelectView,
+  onLanguageChange,
   isOpen,
   onClose,
   isCollapsed,
   onToggleCollapse,
 }) {
+  const modules = getModulesForLanguage(currentLanguage)
   let lessonCounter = 0
 
   return (
@@ -58,9 +61,37 @@ export default function Sidebar({
           </div>
         </div>
 
+        {/* Language Selector */}
+        {!isCollapsed && (
+          <div className='px-3 pt-3'>
+            <div className='flex bg-surface-tertiary rounded-lg p-1'>
+              <button
+                onClick={() => onLanguageChange('java')}
+                className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-md transition-all ${
+                  currentLanguage === 'java'
+                    ? 'bg-brand-600 text-white'
+                    : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+              >
+                ☕ Java
+              </button>
+              <button
+                onClick={() => onLanguageChange('python')}
+                className={`flex-1 py-1.5 px-3 text-xs font-semibold rounded-md transition-all ${
+                  currentLanguage === 'python'
+                    ? 'bg-brand-600 text-white'
+                    : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+              >
+                🐍 Python
+              </button>
+            </div>
+          </div>
+        )}
+
         {!isCollapsed && (
           <p className='text-xs text-zinc-500 mt-3 px-5 mb-1 truncate'>
-            Learn Programming
+            {currentLanguage === 'python' ? 'Python Course' : 'Java Course'}
           </p>
         )}
 

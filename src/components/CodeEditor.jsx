@@ -1,9 +1,10 @@
 import { java } from '@codemirror/lang-java'
+import { python } from '@codemirror/lang-python'
 import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, basicSetup } from 'codemirror'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { executeJavaCode } from '../utils/pistonApi.js'
+import { executeCode } from '../utils/pistonApi.js'
 
 export default function CodeEditor({ defaultCode, title, language = 'java' }) {
   const editorRef = useRef(null)
@@ -16,6 +17,20 @@ export default function CodeEditor({ defaultCode, title, language = 'java' }) {
 
   const isWeb = ['html', 'css', 'javascript'].includes(language)
 
+  const getLanguageExtension = useCallback(() => {
+    if (language === 'python') return python()
+    if (language === 'java') return java()
+    return []
+  }, [language])
+
+  const getFilename = useCallback(() => {
+    if (title) return title
+    if (language === 'python') return 'main.py'
+    if (language === 'java') return 'Main.java'
+    if (language === 'html') return 'index.html'
+    return 'script.js'
+  }, [title, language])
+
   useEffect(() => {
     if (!editorRef.current) return
 
@@ -23,8 +38,7 @@ export default function CodeEditor({ defaultCode, title, language = 'java' }) {
       doc: initialCode,
       extensions: [
         basicSetup,
-        // Only use java() if it's actually java
-        language === 'java' ? java() : [],
+        getLanguageExtension(),
         oneDark,
         EditorView.theme({
           '&': {
@@ -49,7 +63,7 @@ export default function CodeEditor({ defaultCode, title, language = 'java' }) {
     viewRef.current = view
 
     return () => view.destroy()
-  }, [initialCode, language])
+  }, [initialCode, language, getLanguageExtension])
 
   const handleRun = useCallback(async () => {
     if (isRunning || !viewRef.current) return
@@ -82,8 +96,8 @@ export default function CodeEditor({ defaultCode, title, language = 'java' }) {
       }
       setIsRunning(false)
     } else {
-      // For Java, use the API
-      const result = await executeJavaCode(code)
+      // For Java and Python, use the API
+      const result = await executeCode(code, language)
       setOutput(result.output)
       setIsError(!result.success)
       setIsRunning(false)
@@ -110,7 +124,7 @@ export default function CodeEditor({ defaultCode, title, language = 'java' }) {
       <div className='flex items-center justify-between px-4 py-2 bg-surface-secondary border-b border-surface-border'>
         <div className='flex items-center gap-2'>
           <span className='text-xs text-zinc-500 font-mono'>
-            {title || (language === 'java' ? 'Main.java' : language === 'html' ? 'index.html' : 'script.js')}
+            {getFilename()}
           </span>
         </div>
         <div className='flex gap-2'>

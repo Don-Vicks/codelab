@@ -58,3 +58,62 @@ export async function executeJavaCode(sourceCode) {
     }
   }
 }
+
+export async function executePythonCode(sourceCode) {
+  try {
+    const response = await fetch(WANDBOX_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code: sourceCode,
+        compiler: 'cpython-3.12.4',
+        save: false,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`)
+    }
+
+    const data = await response.json()
+
+    // Check for compilation/syntax errors
+    if (data.compiler_error && data.compiler_error.trim()) {
+      return {
+        success: false,
+        output: data.compiler_error,
+      }
+    }
+
+    // Check for runtime errors
+    if (data.program_error && data.program_error.trim()) {
+      return {
+        success: false,
+        output: data.program_error,
+      }
+    }
+
+    // Success
+    const output = data.program_output || ''
+    return {
+      success: true,
+      output:
+        output.trim() ||
+        "(No output — your program ran but didn't print anything)",
+    }
+  } catch (error) {
+    return {
+      success: false,
+      output: `Error: ${error.message}. Please check your internet connection and try again.`,
+    }
+  }
+}
+
+export async function executeCode(sourceCode, language = 'java') {
+  if (language === 'python') {
+    return executePythonCode(sourceCode)
+  }
+  return executeJavaCode(sourceCode)
+}

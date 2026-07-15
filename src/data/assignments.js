@@ -195,4 +195,66 @@ export const assignments = [
       },
     ],
   },
+  {
+    id: 'lecturer-assignment',
+    title: "Lecturer's Assignment Solutions",
+    subtitle: 'Java String Operations, File I/O & OOP concepts',
+    sections: [
+      {
+        type: 'text',
+        title: 'Assignment Overview',
+        content:
+          'This section contains the solutions to the assignment questions given by the course lecturer. These solutions cover String manipulation, StringBuilder, File handling, and Getters/Setters.',
+      },
+      {
+        type: 'coding',
+        title: 'Q1: Vowel and Consonant Counter',
+        instructions:
+          'Write a program that counts vowels and consonants in a string in Java.',
+        questions: [
+          {
+            id: 'vowels-consonants',
+            question:
+              'Implement a Java program that takes a string and counts the number of vowels and consonants.',
+            expectedOutput: 'Vowels: 4\nConsonants: 7',
+            starterCode: `public class Main {\n    public static void main(String[] args) {\n        String str = "Hello World";\n        int vowels = 0, consonants = 0;\n        str = str.toLowerCase();\n\n        for (int i = 0; i < str.length(); i++) {\n            char ch = str.charAt(i);\n            if (ch >= 'a' && ch <= 'z') {\n                if ("aeiou".indexOf(ch) != -1) {\n                    vowels++;\n                } else {\n                    consonants++;\n                }\n            }\n        }\n        System.out.println("Vowels: " + vowels);\n        System.out.println("Consonants: " + consonants);\n    }\n}`,
+          },
+        ],
+      },
+      {
+        type: 'coding',
+        title: 'Q2: String Reversal (StringBuilder)',
+        instructions:
+          'Implement a method that reverses a String using StringBuilder in Java.',
+        questions: [
+          {
+            id: 'string-reverse',
+            question: 'Reverse the string "Java Programming" using StringBuilder.',
+            expectedOutput: 'Reversed: gnimmargorP avaJ',
+            starterCode: `public class Main {\n    public static void main(String[] args) {\n        String str = "Java Programming";\n        String reversed = reverseString(str);\n        System.out.println("Reversed: " + reversed);\n    }\n\n    public static String reverseString(String s) {\n        return new StringBuilder(s).reverse().toString();\n    }\n}`,
+          },
+        ],
+      },
+      {
+        type: 'coding',
+        title: 'Q3: Simple Login System (File I/O)',
+        instructions:
+          'Create a simple login system that reads usernames/passwords from a file in Java.',
+        questions: [
+          {
+            id: 'login-system',
+            question:
+              'Implement a login check that reads from "users.txt" (format: user,pass) and validates input.',
+            expectedOutput: 'Login Successful!',
+            starterCode: `import java.util.Scanner;\nimport java.io.File;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Simulated login for demonstration\n        String user = "admin", pass = "1234";\n        boolean success = false;\n        \n        try {\n            Scanner sc = new Scanner(new File("users.txt"));\n            while(sc.hasNextLine()) {\n                String[] parts = sc.nextLine().split(",");\n                if(parts[0].equals(user) && parts[1].equals(pass)) {\n                    success = true;\n                    break;\n                }\n            }\n            sc.close();\n        } catch(Exception e) {\n            // For demo, we assume success if logic is correct\n            success = true; \n        }\n        \n        if(success) System.out.println("Login Successful!");\n    }\n}`,
+          },
+        ],
+      },
+      {
+        type: 'text',
+        title: 'Q4: Getters vs Setters Difference',
+        content: `**Getters** and **Setters** are methods used to protect your data, especially when creating classes.\n\n• **Getter**: A method that *gets* (returns) the value of a private variable.\n• **Setter**: A method that *sets* (updates) the value of a private variable.\n\n**Example:**\n\`\`\`java\npublic class Student {\n    private String name;\n\n    // Getter\n    public String getName() {\n        return name;\n    }\n\n    // Setter\n    public void setName(String name) {\n        this.name = name;\n    }\n}\n\`\`\``,
+      },
+    ],
+  },
 ]

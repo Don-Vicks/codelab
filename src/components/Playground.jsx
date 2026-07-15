@@ -1,11 +1,12 @@
 import { java } from '@codemirror/lang-java'
+import { python } from '@codemirror/lang-python'
 import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, basicSetup } from 'codemirror'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { executeJavaCode } from '../utils/pistonApi.js'
+import { executeCode } from '../utils/pistonApi.js'
 
-const PLAYGROUND_DEFAULT = `public class Main {
+const JAVA_DEFAULT = `public class Main {
     public static void main(String[] args) {
         // Write your Java code here!
         // Click "Run" to see the output below.
@@ -15,20 +16,30 @@ const PLAYGROUND_DEFAULT = `public class Main {
     }
 }`
 
-export default function Playground() {
+const PYTHON_DEFAULT = `# Write your Python code here!
+# Click "Run" to see the output below.
+
+print("Hello! Welcome to CodeLab!")
+print("Try changing this message and run again!")`
+
+export default function Playground({ language = 'java' }) {
   const editorRef = useRef(null)
   const viewRef = useRef(null)
   const [output, setOutput] = useState(null)
   const [isError, setIsError] = useState(false)
   const [isRunning, setIsRunning] = useState(false)
 
+  const defaultCode = language === 'python' ? PYTHON_DEFAULT : JAVA_DEFAULT
+  const filename = language === 'python' ? 'main.py' : 'Main.java'
+  const langLabel = language === 'python' ? 'Python' : 'Java'
+
   useEffect(() => {
     if (!editorRef.current) return
     const state = EditorState.create({
-      doc: PLAYGROUND_DEFAULT,
+      doc: defaultCode,
       extensions: [
         basicSetup,
-        java(),
+        language === 'python' ? python() : java(),
         oneDark,
         EditorView.theme({
           '&': { backgroundColor: 'transparent', height: '100%' },
@@ -47,18 +58,18 @@ export default function Playground() {
     const view = new EditorView({ state, parent: editorRef.current })
     viewRef.current = view
     return () => view.destroy()
-  }, [])
+  }, [language, defaultCode])
 
   const handleRun = useCallback(async () => {
     if (isRunning || !viewRef.current) return
     setIsRunning(true)
     setOutput(null)
     const code = viewRef.current.state.doc.toString()
-    const result = await executeJavaCode(code)
+    const result = await executeCode(code, language)
     setOutput(result.output)
     setIsError(!result.success)
     setIsRunning(false)
-  }, [isRunning])
+  }, [isRunning, language])
 
   const handleClear = useCallback(() => {
     setOutput(null)
@@ -73,11 +84,11 @@ export default function Playground() {
           🧪 Playground
         </span>
         <h1 className='text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-2 tracking-tight'>
-          Java Playground
+          {langLabel} Playground
         </h1>
         <p className='text-zinc-400 text-sm leading-relaxed'>
-          Write any Java code you want and run it instantly. This is your free
-          space to experiment, practice, and test things out!
+          Write any {langLabel} code you want and run it instantly. This is your
+          free space to experiment, practice, and test things out!
         </p>
       </div>
 
@@ -87,7 +98,7 @@ export default function Playground() {
         <div className='flex items-center justify-between px-4 py-2 bg-surface-secondary border-b border-surface-border'>
           <div className='flex items-center gap-2'>
             <span className='text-xs text-zinc-500 font-medium font-mono'>
-              Main.java — Write your code here
+              {filename} — Write your code here
             </span>
           </div>
           <div className='flex gap-2'>
@@ -145,36 +156,66 @@ export default function Playground() {
 
       {/* Tips */}
       <div className='mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3'>
-        <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
-          <div className='text-lg mb-2 grayscale opacity-80'>💡</div>
-          <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
-            Quick Tip
-          </h4>
-          <p className='text-xs text-zinc-500'>
-            Your code must have a{' '}
-            <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
-              public class Main
-            </code>{' '}
-            with a{' '}
-            <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
-              main
-            </code>{' '}
-            method.
-          </p>
-        </div>
-        <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
-          <div className='text-lg mb-2 grayscale opacity-80'>📝</div>
-          <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
-            Print Output
-          </h4>
-          <p className='text-xs text-zinc-500'>
-            Use{' '}
-            <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
-              System.out.println()
-            </code>{' '}
-            to print text to the output.
-          </p>
-        </div>
+        {language === 'java' ? (
+          <>
+            <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
+              <div className='text-lg mb-2 grayscale opacity-80'>💡</div>
+              <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
+                Quick Tip
+              </h4>
+              <p className='text-xs text-zinc-500'>
+                Your code must have a{' '}
+                <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
+                  public class Main
+                </code>{' '}
+                with a{' '}
+                <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
+                  main
+                </code>{' '}
+                method.
+              </p>
+            </div>
+            <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
+              <div className='text-lg mb-2 grayscale opacity-80'>📝</div>
+              <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
+                Print Output
+              </h4>
+              <p className='text-xs text-zinc-500'>
+                Use{' '}
+                <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
+                  System.out.println()
+                </code>{' '}
+                to print text to the output.
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
+              <div className='text-lg mb-2 grayscale opacity-80'>💡</div>
+              <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
+                Quick Tip
+              </h4>
+              <p className='text-xs text-zinc-500'>
+                Just write your code directly — no class or main method needed.
+                Python runs top to bottom.
+              </p>
+            </div>
+            <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
+              <div className='text-lg mb-2 grayscale opacity-80'>📝</div>
+              <h4 className='text-sm font-semibold text-zinc-200 mb-1'>
+                Print Output
+              </h4>
+              <p className='text-xs text-zinc-500'>
+                Use{' '}
+                <code className='text-brand-300 bg-surface-tertiary px-1 rounded border border-surface-border'>
+                  print()
+                </code>{' '}
+                to print text to the output.
+              </p>
+            </div>
+          </>
+        )}
         <div className='bg-surface-secondary border border-surface-border rounded-lg p-4'>
           <div className='text-lg mb-2 grayscale opacity-80'>🐛</div>
           <h4 className='text-sm font-semibold text-zinc-200 mb-1'>

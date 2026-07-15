@@ -13,6 +13,7 @@ function App() {
   const [currentLessonId, setCurrentLessonId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [currentLanguage, setCurrentLanguage] = useState('java')
 
   const handleSelectLesson = useCallback((id) => {
     setCurrentLessonId(id)
@@ -26,9 +27,20 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
+  const handleLanguageChange = useCallback(
+    (lang) => {
+      setCurrentLanguage(lang)
+      // Reset to home when switching languages
+      setCurrentView('home')
+      setCurrentLessonId(null)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    [],
+  )
+
   const currentLesson = currentLessonId ? getLessonById(currentLessonId) : null
   const { prev, next } = currentLessonId
-    ? getAdjacentLessons(currentLessonId)
+    ? getAdjacentLessons(currentLessonId, currentLanguage)
     : { prev: null, next: null }
 
   return (
@@ -36,8 +48,10 @@ function App() {
       <Sidebar
         currentLessonId={currentLessonId}
         currentView={currentView}
+        currentLanguage={currentLanguage}
         onSelectLesson={handleSelectLesson}
         onSelectView={handleSelectView}
+        onLanguageChange={handleLanguageChange}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         isCollapsed={isCollapsed}
@@ -52,6 +66,7 @@ function App() {
         <Header
           onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
           onSelectView={handleSelectView}
+          currentLanguage={currentLanguage}
         />
 
         <main className='flex-1'>
@@ -64,11 +79,12 @@ function App() {
               nextLesson={next}
             />
           ) : currentView === 'playground' ? (
-            <Playground />
+            <Playground language={currentLanguage} />
           ) : (
             <HomePage
               onStartLesson={handleSelectLesson}
               onOpenPlayground={() => handleSelectView('playground')}
+              currentLanguage={currentLanguage}
             />
           )}
         </main>

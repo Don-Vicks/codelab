@@ -1,4 +1,4 @@
-export default function Header({ onToggleSidebar, onSelectView }) {
+export default function Header({ onToggleSidebar, onSelectView, currentLanguage }) {
   return (
     <header className='sticky top-0 z-[100] h-16 bg-surface-primary border-b border-surface-border flex items-center justify-between px-6'>
       <div className='flex items-center gap-3'>
@@ -26,7 +26,7 @@ export default function Header({ onToggleSidebar, onSelectView }) {
           <span>Playground</span>
         </button>
         <span className='bg-surface-secondary border border-surface-border text-zinc-400 px-3 py-1 rounded-full text-[0.7rem] font-semibold tracking-wide uppercase group-hover:text-brand-400 transition-colors'>
-          Full Stack
+          {currentLanguage === 'python' ? '🐍 Python' : '☕ Java'}
         </span>
       </div>
     </header>

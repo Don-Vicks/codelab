@@ -244,149 +244,180 @@ export default function AssignmentView({ assignment }) {
         </button>
       )}
 
-      {/* Section A: OBJ */}
-      {objSection && (
-        <div className='mb-12'>
-          <h2 className='text-xl font-bold text-white mb-2 pb-2 border-b border-surface-border'>
-            {objSection.title}
-          </h2>
-          <p className='text-sm text-zinc-500 mb-6'>
-            {objSection.instructions}
-          </p>
-
-          <div className='space-y-6'>
-            {objSection.questions.map((q) => {
-              const isAnswered = selectedAnswers[q.id] !== undefined
-              const isCorrect = selectedAnswers[q.id] === q.answer
-
-              return (
-                <div
-                  key={q.id}
-                  className={`bg-surface-secondary border rounded-lg p-5 transition-all ${
-                    submitted && isAnswered
-                      ? isCorrect
-                        ? 'border-emerald-500/40'
-                        : 'border-red-500/40'
-                      : 'border-surface-border'
-                  }`}
-                >
-                  <div className='flex gap-3 mb-4'>
-                    <span className='w-7 h-7 rounded bg-surface-tertiary text-zinc-400 flex items-center justify-center text-xs font-mono shrink-0'>
-                      {q.id}
-                    </span>
-                    <p className='text-zinc-200 font-medium leading-relaxed'>
-                      {q.question}
+      {/* Assignment Sections */}
+      <div className='space-y-12'>
+        {assignment.sections.map((section, sIdx) => (
+          <div key={sIdx}>
+            {/* Text Section */}
+            {section.type === 'text' && (
+              <div className='bg-surface-secondary border border-surface-border rounded-lg p-6'>
+                <h2 className='text-xl font-bold text-white mb-3'>
+                  {section.title}
+                </h2>
+                <div className='text-zinc-400 prose prose-invert max-w-none text-sm sm:text-base leading-relaxed'>
+                  {section.content.split('\n').map((line, i) => (
+                    <p key={i} className='mb-2'>
+                      {line}
                     </p>
-                  </div>
-
-                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 ml-10'>
-                    {q.options.map((opt, idx) => {
-                      const letter = String.fromCharCode(65 + idx)
-                      const isSelected = selectedAnswers[q.id] === idx
-                      const isThisCorrect = q.answer === idx
-
-                      let optionClass =
-                        'border-surface-border text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
-
-                      if (isSelected && !submitted) {
-                        optionClass =
-                          'border-brand-500 text-brand-300 bg-brand-500/5'
-                      } else if (submitted && isThisCorrect) {
-                        optionClass =
-                          'border-emerald-500/50 text-emerald-300 bg-emerald-500/5'
-                      } else if (submitted && isSelected && !isThisCorrect) {
-                        optionClass =
-                          'border-red-500/50 text-red-300 bg-red-500/5'
-                      }
-
-                      return (
-                        <button
-                          key={idx}
-                          onClick={() => handleSelect(q.id, idx)}
-                          disabled={submitted}
-                          className={`flex items-center gap-2.5 text-left px-4 py-3 rounded-md border text-sm transition-all ${optionClass} ${submitted ? 'cursor-default' : 'cursor-pointer'}`}
-                        >
-                          <span className='w-5 h-5 rounded bg-surface-tertiary text-[0.65rem] font-mono flex items-center justify-center shrink-0'>
-                            {letter}
-                          </span>
-                          <span className='font-mono text-xs'>{opt}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-
-                  {submitted && isAnswered && !isCorrect && (
-                    <div className='mt-3 ml-10 text-xs text-emerald-400'>
-                      Correct answer: {String.fromCharCode(65 + q.answer)}.{' '}
-                      {q.options[q.answer]}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-
-          {!submitted && (
-            <button
-              onClick={handleSubmit}
-              disabled={Object.keys(selectedAnswers).length < totalQuestions}
-              className={`mt-8 px-8 py-3 rounded-md text-white font-semibold transition-all ${
-                Object.keys(selectedAnswers).length >= totalQuestions
-                  ? 'bg-brand-600 hover:bg-brand-500 cursor-pointer'
-                  : 'bg-zinc-700 cursor-not-allowed opacity-50'
-              }`}
-            >
-              Submit Answers ({Object.keys(selectedAnswers).length}/
-              {totalQuestions})
-            </button>
-          )}
-        </div>
-      )}
-
-      {/* Section B: Coding */}
-      {codingSection && (
-        <div>
-          <h2 className='text-xl font-bold text-white mb-2 pb-2 border-b border-surface-border'>
-            {codingSection.title}
-          </h2>
-          <p className='text-sm text-zinc-500 mb-6'>
-            {codingSection.instructions}
-          </p>
-
-          <div className='space-y-8'>
-            {codingSection.questions.map((q) => (
-              <div
-                key={q.id}
-                className='bg-surface-secondary border border-surface-border rounded-lg p-5'
-              >
-                <div className='flex gap-3 mb-4'>
-                  <span className='w-7 h-7 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs font-mono shrink-0'>
-                    {q.id}
-                  </span>
-                  <p className='text-zinc-200 font-medium leading-relaxed'>
-                    {q.question}
-                  </p>
-                </div>
-
-                {q.expectedOutput && (
-                  <div className='ml-10 mb-4 bg-surface-primary border border-surface-border rounded-md p-3'>
-                    <div className='text-[0.65rem] font-bold tracking-wider uppercase text-zinc-500 mb-1.5'>
-                      Expected Output
-                    </div>
-                    <pre className='text-sm text-emerald-300 font-mono whitespace-pre-wrap'>
-                      {q.expectedOutput}
-                    </pre>
-                  </div>
-                )}
-
-                <div className='ml-10'>
-                  <CodeEditor defaultCode={q.starterCode} />
+                  ))}
                 </div>
               </div>
-            ))}
+            )}
+
+            {/* OBJ Section */}
+            {section.type === 'obj' && (
+              <div>
+                <h2 className='text-xl font-bold text-white mb-2 pb-2 border-b border-surface-border'>
+                  {section.title}
+                </h2>
+                <p className='text-sm text-zinc-500 mb-6'>
+                  {section.instructions}
+                </p>
+
+                <div className='space-y-6'>
+                  {section.questions.map((q) => {
+                    const isAnswered = selectedAnswers[q.id] !== undefined
+                    const isCorrect = selectedAnswers[q.id] === q.answer
+
+                    return (
+                      <div
+                        key={q.id}
+                        className={`bg-surface-secondary border rounded-lg p-5 transition-all ${
+                          submitted && isAnswered
+                            ? isCorrect
+                              ? 'border-emerald-500/40'
+                              : 'border-red-500/40'
+                            : 'border-surface-border'
+                        }`}
+                      >
+                        <div className='flex gap-3 mb-4'>
+                          <span className='w-7 h-7 rounded bg-surface-tertiary text-zinc-400 flex items-center justify-center text-xs font-mono shrink-0'>
+                            {q.id}
+                          </span>
+                          <p className='text-zinc-200 font-medium leading-relaxed'>
+                            {q.question}
+                          </p>
+                        </div>
+
+                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 ml-10'>
+                          {q.options.map((opt, idx) => {
+                            const letter = String.fromCharCode(65 + idx)
+                            const isSelected = selectedAnswers[q.id] === idx
+                            const isThisCorrect = q.answer === idx
+
+                            let optionClass =
+                              'border-surface-border text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
+
+                            if (isSelected && !submitted) {
+                              optionClass =
+                                'border-brand-500 text-brand-300 bg-brand-500/5'
+                            } else if (submitted && isThisCorrect) {
+                              optionClass =
+                                'border-emerald-500/50 text-emerald-300 bg-emerald-500/5'
+                            } else if (
+                              submitted &&
+                              isSelected &&
+                              !isThisCorrect
+                            ) {
+                              optionClass =
+                                'border-red-500/50 text-red-300 bg-red-500/5'
+                            }
+
+                            return (
+                              <button
+                                key={idx}
+                                onClick={() => handleSelect(q.id, idx)}
+                                disabled={submitted}
+                                className={`flex items-center gap-2.5 text-left px-4 py-3 rounded-md border text-sm transition-all ${optionClass} ${submitted ? 'cursor-default' : 'cursor-pointer'}`}
+                              >
+                                <span className='w-5 h-5 rounded bg-surface-tertiary text-[0.65rem] font-mono flex items-center justify-center shrink-0'>
+                                  {letter}
+                                </span>
+                                <span className='font-mono text-xs'>{opt}</span>
+                              </button>
+                            )
+                          })}
+                        </div>
+
+                        {submitted && isAnswered && !isCorrect && (
+                          <div className='mt-3 ml-10 text-xs text-emerald-400'>
+                            Correct answer: {String.fromCharCode(65 + q.answer)}
+                            . {q.options[q.answer]}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {!submitted && (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={
+                      Object.keys(selectedAnswers).length <
+                      section.questions.length
+                    }
+                    className={`mt-8 px-8 py-3 rounded-md text-white font-semibold transition-all ${
+                      Object.keys(selectedAnswers).length >=
+                      section.questions.length
+                        ? 'bg-brand-600 hover:bg-brand-500 cursor-pointer'
+                        : 'bg-zinc-700 cursor-not-allowed opacity-50'
+                    }`}
+                  >
+                    Submit Answers ({Object.keys(selectedAnswers).length}/
+                    {section.questions.length})
+                  </button>
+                )}
+              </div>
+            )}
+
+            {/* Coding Section */}
+            {section.type === 'coding' && (
+              <div>
+                <h2 className='text-xl font-bold text-white mb-2 pb-2 border-b border-surface-border'>
+                  {section.title}
+                </h2>
+                <p className='text-sm text-zinc-500 mb-6'>
+                  {section.instructions}
+                </p>
+
+                <div className='space-y-8'>
+                  {section.questions.map((q) => (
+                    <div
+                      key={q.id}
+                      className='bg-surface-secondary border border-surface-border rounded-lg p-5'
+                    >
+                      <div className='flex gap-3 mb-4'>
+                        <span className='w-7 h-7 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs font-mono shrink-0'>
+                          {q.id}
+                        </span>
+                        <p className='text-zinc-200 font-medium leading-relaxed'>
+                          {q.question}
+                        </p>
+                      </div>
+
+                      {q.expectedOutput && (
+                        <div className='ml-10 mb-4 bg-surface-primary border border-surface-border rounded-md p-3'>
+                          <div className='text-[0.65rem] font-bold tracking-wider uppercase text-zinc-500 mb-1.5'>
+                            Expected Output
+                          </div>
+                          <pre className='text-sm text-emerald-300 font-mono whitespace-pre-wrap'>
+                            {q.expectedOutput}
+                          </pre>
+                        </div>
+                      )}
+
+                      <div className='ml-10'>
+                        <CodeEditor defaultCode={q.starterCode} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   )
 }

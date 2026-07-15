@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 4: Encapsulation & Getters/Setters</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        background: linear-gradient(135deg, #1b5e20 0%, #33691e 100%);
+        color: #333;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .slides-container {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        animation: slideIn 0.5s ease;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .active-slide {
+        display: block;
+      }
+      .slide-header {
+        background: linear-gradient(90deg, #2e7d32, #43a047);
+        color: white;
+        padding: 20px;
+        border-radius: 8px 8px 0 0;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      .slide-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+      }
+      .slide-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+      .slide-content {
+        padding: 0 20px 20px;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+      .content-block {
+        background: #f1f8e9;
+        border-left: 5px solid #4caf50;
+        padding: 18px;
+        margin: 20px 0;
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      }
+      .code-block {
+        background: #263238;
+        color: #e0f7fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        font-family: 'Courier New', monospace;
+        font-size: 1rem;
+        overflow-x: auto;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .keyword {
+        color: #ff9800;
+        font-weight: bold;
+      }
+      .string {
+        color: #4caf50;
+      }
+      .comment {
+        color: #9e9e9e;
+      }
+      .nav-controls {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        display: flex;
+        gap: 15px;
+        z-index: 1000;
+      }
+      .nav-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 14px 22px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+      .nav-btn:hover {
+        background: #388e3c;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+      .slide-counter {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        background: rgba(46, 125, 50, 0.9);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      .highlight {
+        background: #fff9c4;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Slide 1: Title -->
+    <div class="slides-container active-slide" id="slide1">
+      <div class="slide-header">
+        <h1 class="slide-title">Lecture 4: Encapsulation</h1>
+        <p class="slide-subtitle">Getters & Setters in Java</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h2>Protecting Your Data</h2>
+          <p>
+            Learn how to use access modifiers and methods to ensure your objects
+            maintain a valid state.
+          </p>
+        </div>
+        <div class="content-block">
+          <h3>Key Concepts</h3>
+          <ul>
+            <li>Private Fields (Data Hiding)</li>
+            <li>Getter Methods (Read Access)</li>
+            <li>Setter Methods (Write Access & Validation)</li>
+            <li>The 'this' Keyword</li>
+          </ul>
+        </div>
+        <div class="slide-footer">Slide 1 of 5</div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Why Getters & Setters? -->
+    <div class="slides-container" id="slide2">
+      <div class="slide-header">
+        <h1 class="slide-title">Why Getters & Setters?</h1>
+        <p class="slide-subtitle">Controlled Access</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <p>
+            Direct access to fields allows any part of the program to change data to anything.
+            Getters and Setters provide a "gatekeeper" mechanism.
+          </p>
+        </div>
+        <div class="code-block">
+          <span class="keyword">private</span> String name;<br/><br/>
+          <span class="comment">// Getter</span><br/>
+          <span class="keyword">public</span> String getName() {<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> name;<br/>
+          }<br/><br/>
+          <span class="comment">// Setter</span><br/>
+          <span class="keyword">public void</span> setName(String newName) {<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.name = newName;<br/>
+          }
+        </div>
+        <div class="slide-footer">Slide 2 of 5</div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Differences -->
+    <div class="slides-container" id="slide3">
+      <div class="slide-header">
+        <h1 class="slide-title">Getter vs Setter</h1>
+        <p class="slide-subtitle">Quick Comparison</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <p><b>Getter:</b> Used to *retrieve* data. Always has a return type. No parameters.</p>
+          <p><b>Setter:</b> Used to *update* data. Usually <code>void</code>. Takes at least one parameter.</p>
+        </div>
+        <div class="content-block">
+          <h3>Validation in Setters</h3>
+          <p>Setters allow you to check if data is valid before saving it.</p>
+          <div class="code-block">
+            <span class="keyword">public void</span> setAge(<span class="keyword">int</span> age) {<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> (age > 0) {<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.age = age;<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+            }
+          </div>
+        </div>
+        <div class="slide-footer">Slide 3 of 5</div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Lab Task -->
+    <div class="slides-container" id="slide4">
+      <div class="slide-header">
+        <h1 class="slide-title">Lab Task</h1>
+        <p class="slide-subtitle">Practice Encapsulation</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <h3>Task:</h3>
+          <p>Create a <code>Person</code> class with private fields for <code>name</code> and <code>age</code>. Add appropriate getters and setters. In the setter for age, ensure the age is not set to a negative number.</p>
+        </div>
+        <div class="slide-footer">Slide 4 of 5</div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Summary -->
+    <div class="slides-container" id="slide5">
+      <div class="slide-header">
+        <h1 class="slide-title">Summary</h1>
+        <p class="slide-subtitle">Encapsulation Essentials</p>
+      </div>
+      <div class="slide-content">
+        <div class="content-block">
+          <ul>
+            <li>Encapsulation keeps data safe.</li>
+            <li>Getters provide read-only access.</li>
+            <li>Setters provide write access with control.</li>
+            <li>Fields should almost always be <code>private</code>.</li>
+          </ul>
+        </div>
+        <div class="slide-footer">Slide 5 of 5</div>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn">← Previous</button>
+      <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+    <div class="slide-counter" id="slideCounter">Slide 1 of 5</div>
+
+    <script>
+      let currentSlide = 1;
+      const totalSlides = 5;
+      function updateCounter() {
+        document.getElementById('slideCounter').textContent = `Slide ${currentSlide} of ${totalSlides}`;
+      }
+      function showSlide(slideNumber) {
+        for (let i = 1; i <= totalSlides; i++) {
+          let slide = document.getElementById(`slide${i}`);
+          if (slide) slide.classList.remove('active-slide');
+        }
+        document.getElementById(`slide${slideNumber}`).classList.add('active-slide');
+        currentSlide = slideNumber;
+        updateCounter();
+        window.scrollTo(0, 0);
+      }
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+      });
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentSlide > 1) showSlide(currentSlide - 1);
+      });
+      updateCounter();
+    </script>
+  </body>
+</html>

@@ -26,7 +26,7 @@ export default function AssignmentPage() {
 
       {/* Assignment content */}
       <main>
-        <AssignmentView assignment={assignments[0]} />
+        <AssignmentView assignment={assignments[1]} />
       </main>
 
       {/* Simple footer */}

@@ -1,6 +1,10 @@
-import { allLessons, modules } from '../data/index.js'
+import { getAllLessonsForLanguage, getModulesForLanguage } from '../data/index.js'
 
-export default function HomePage({ onStartLesson, onOpenPlayground }) {
+export default function HomePage({ onStartLesson, onOpenPlayground, currentLanguage }) {
+  const modules = getModulesForLanguage(currentLanguage)
+  const allLessons = getAllLessonsForLanguage(currentLanguage)
+  const langLabel = currentLanguage === 'python' ? 'Python' : 'Java'
+
   return (
     <div>
       {/* Hero */}
@@ -8,10 +12,10 @@ export default function HomePage({ onStartLesson, onOpenPlayground }) {
         <div className='relative z-10'>
           <span className='inline-flex items-center gap-2 bg-surface-secondary border border-surface-border px-3 py-1 rounded-full text-xs text-zinc-400 font-medium mb-6'>
             <span className='w-2 h-2 rounded-full bg-brand-500'></span>
-            Free Interactive Programming Course
+            Free Interactive {langLabel} Course
           </span>
           <h1 className='text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6 max-w-[800px] mx-auto tracking-tight'>
-            Learn Programming <br className='hidden sm:block' />
+            Learn {langLabel} <br className='hidden sm:block' />
             <span className='text-zinc-500'>the Easy Way.</span>
           </h1>
           <p className='text-lg sm:text-xl text-zinc-400 max-w-[600px] mx-auto mb-10 leading-relaxed'>
@@ -23,7 +27,7 @@ export default function HomePage({ onStartLesson, onOpenPlayground }) {
               onClick={() => onStartLesson(allLessons[0].id)}
               className='inline-flex items-center gap-2 px-8 py-3 bg-brand-600 rounded-md text-white font-semibold hover:bg-brand-500 transition-all'
             >
-              Start Learning
+              Start Learning {langLabel}
             </button>
             <button
               onClick={onOpenPlayground}
@@ -43,7 +47,6 @@ export default function HomePage({ onStartLesson, onOpenPlayground }) {
             </button>
           </div>
 
-          {/* Stats */}
           {/* Stats */}
           <div className='flex justify-center gap-12 sm:gap-24 mt-16 pt-10 border-t border-surface-border flex-wrap'>
             <div className='text-center'>
@@ -84,7 +87,7 @@ export default function HomePage({ onStartLesson, onOpenPlayground }) {
 
       {/* Module Grid */}
       <div id='modules' className='px-4 sm:px-7 py-20 max-w-[1000px] mx-auto'>
-        <h2 className='text-2xl font-bold text-white mb-2'>Course Modules</h2>
+        <h2 className='text-2xl font-bold text-white mb-2'>{langLabel} Course Modules</h2>
         <p className='text-zinc-500 mb-10 text-base'>
           {allLessons.length} lessons across {modules.length} modules — from
           absolute zero to writing real programs

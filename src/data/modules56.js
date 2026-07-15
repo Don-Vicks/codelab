@@ -136,7 +136,7 @@ export const workingWithData = [
   {
     id: 'arrays',
     module: 'Working with Data',
-    moduleIndex: 6,
+    moduleIndex: 7,
     title: 'Arrays',
     description:
       'Store multiple values in a single variable — declaring, accessing, and iterating over arrays.',
@@ -178,7 +178,7 @@ export const workingWithData = [
   {
     id: 'strings',
     module: 'Working with Data',
-    moduleIndex: 6,
+    moduleIndex: 7,
     title: 'Strings',
     description:
       'Master Java Strings — methods, immutability, concatenation, and StringBuilder.',
@@ -200,12 +200,36 @@ export const workingWithData = [
         content:
           'Use `str1.equals(str2)` to compare String content. The `==` operator compares memory references, not the actual text!',
       },
+      {
+        type: 'editor',
+        title: 'Assignment: Vowel & Consonant Counter',
+        defaultCode: `public class VowelCounter {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        int vowels = 0, consonants = 0;
+        str = str.toLowerCase();
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch >= 'a' && ch <= 'z') {
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+                    vowels++;
+                } else {
+                    consonants++;
+                }
+            }
+        }
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+    }
+}`,
+      },
     ],
   },
   {
     id: 'stringbuilder',
     module: 'Working with Data',
-    moduleIndex: 6,
+    moduleIndex: 7,
     title: 'StringBuilder',
     description:
       'The mutable alternative to Strings. Use this when you need to modify text frequently!',
@@ -218,14 +242,50 @@ export const workingWithData = [
       {
         type: 'editor',
         title: 'StringBuilder Methods',
-        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // 1. Create a StringBuilder\n        StringBuilder sb = new StringBuilder("Java");\n        \n        // 2. Append (add to the end)\n        sb.append(" is");\n        sb.append(" awesome!");\n        System.out.println("After append: " + sb);\n        \n        // 3. Insert (add in the middle at a specific index)\n        sb.insert(5, "truly ");\n        System.out.println("After insert: " + sb);\n        \n        // 4. Delete and DeleteCharAt\n        sb.delete(5, 11); // deletes "truly "\n        System.out.println("After delete: " + sb);\n        sb.deleteCharAt(4); // deletes space after Java\n        System.out.println("After deleteCharAt: " + sb);\n        \n        // 5. Replace and Reverse\n        sb.replace(0, 4, "Python");\n        System.out.println("After replace: " + sb);\n        sb.reverse();\n        System.out.println("After reverse: " + sb);\n        \n        // 6. Convert back to an immutable String when done\n        String finalResult = sb.toString();\n    }\n}`,
+        defaultCode: `public class Main {\n    public static void main(String[] args) {\n        // 1. Create a StringBuilder\n        StringBuilder sb = new StringBuilder("Java");\n        \n        // 2. Append (add to the end)\n        sb.append(" is");\n        sb.append(" awesome!");\n        System.out.println("After append: " + sb);\n        \n        // 3. Insert (add in the middle at a specific index)\n        sb.insert(5, "truly ");\n        System.out.println("After insert: " + sb);\n        \n        // 4. Delete and DeleteCharAt\n        sb.delete(5, 11); // deletes "truly "\n        System.out.println("After delete: " + sb);\n        sb.deleteCharAt(4); // deletes space after Java\n        System.out.println("After deleteCharAt: " + sb);\n        \n        // 5. Replace and Reverse\n        sb.replace(0, 4, "Python");\n        System.out.println("After replace: " + sb);\n        sb.reverse();\n        System.out.println("After reverse: " + sb);\n        \n        // 6. Convert back to an immutable String when done\n        String finalResult = sb.toString();\n    }\n}\n`,
+      },
+      {
+        type: 'editor',
+        title: 'Assignment: Reverse String with StringBuilder',
+        defaultCode: `public class StringReverser {
+    public static void main(String[] args) {
+        String original = "Java Programming";
+        
+        // Using StringBuilder to reverse
+        StringBuilder sb = new StringBuilder(original);
+        String reversed = sb.reverse().toString();
+        
+        System.out.println("Original: " + original);
+        System.out.println("Reversed: " + reversed);
+    }
+}`,
+      },
+    ],
+  },
+  {
+    id: 'fileio',
+    module: 'Working with Data',
+    moduleIndex: 7,
+    title: 'File I/O',
+    description:
+      'Learn how to read from and write to files in Java.',
+    sections: [
+      {
+        type: 'text',
+        title: 'Working with Files',
+        content: `Reading and writing files is essential for persistent storage. In Java, we use \`java.io.File\`, \`java.util.Scanner\` (for reading), and \`java.io.PrintWriter\` (for writing).`,
+      },
+      {
+        type: 'editor',
+        title: 'Writing and Reading a Login File',
+        defaultCode: `import java.io.*;\nimport java.util.*;\n\npublic class FileSystem {\n    public static void main(String[] args) throws Exception {\n        // Writing to a file\n        PrintWriter writer = new PrintWriter("login.txt");\n        writer.println("user:admin");\n        writer.println("pass:1234");\n        writer.close();\n        \n        // Reading from a file\n        Scanner fileScanner = new Scanner(new File("login.txt"));\n        while (fileScanner.hasNextLine()) {\n            System.out.println(fileScanner.nextLine());\n        }\n        fileScanner.close();\n    }\n}`,
       },
     ],
   },
   {
     id: 'arraylist',
     module: 'Working with Data',
-    moduleIndex: 6,
+    moduleIndex: 7,
     title: 'ArrayList',
     description:
       'Dynamic arrays that can grow and shrink — the flexible alternative to fixed-size arrays.',
