@@ -68,7 +68,7 @@ export async function executePythonCode(sourceCode) {
       },
       body: JSON.stringify({
         code: sourceCode,
-        compiler: 'cpython-3.12.4',
+        compiler: 'cpython-3.12.7',
         save: false,
       }),
     })
